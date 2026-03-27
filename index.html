@@ -43,24 +43,53 @@
             0%,100% { transform: scale(1); box-shadow: 0 0 30px rgba(255,68,68,0.3); }
             50% { transform: scale(1.06); box-shadow: 0 0 50px rgba(255,68,68,0.5); }
         }
-        .load-title { font-family: 'Secular One'; font-size: 2.8rem; color: #ff4444; letter-spacing: 6px; text-shadow: 0 0 20px rgba(255,68,68,0.4); }
+        .load-title { font-family: 'Secular One', sans-serif; font-size: 2.8rem; color: #ff4444; letter-spacing: 6px; text-shadow: 0 0 20px rgba(255,68,68,0.4); }
         .load-sub { font-size: 0.8rem; color: #555; margin: 2px 0 20px; letter-spacing: 4px; }
         .load-bar-bg { width: 180px; height: 2px; background: #1a1a1a; border-radius: 2px; overflow: hidden; }
         .load-bar { width: 0%; height: 100%; background: linear-gradient(90deg, #ff4444, #ff8c00); transition: width 0.3s ease; }
         .load-pct { font-size: 0.7rem; color: #333; margin-top: 6px; }
 
+        /* ===== CAMERA PERMISSION ===== */
+        #cameraOverlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.94);
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            z-index: 1500; gap: 16px;
+            backdrop-filter: blur(12px);
+            opacity: 0; transition: opacity 0.5s ease; pointer-events: none;
+        }
+        #cameraOverlay.show { opacity: 1; pointer-events: all; }
+        .cam-icon { font-size: 3.5rem; animation: logoPulse 2s infinite; }
+        .cam-title { font-family: 'Secular One', sans-serif; font-size: 1.5rem; color: #fff; }
+        .cam-sub { font-size: 0.82rem; color: #666; text-align: center; max-width: 270px; line-height: 1.7; }
+        .cam-divider { width: 60px; height: 1px; background: #222; }
+        .cam-btn { padding: 14px 36px; border-radius: 30px; border: none; font-family: 'Heebo', sans-serif; font-weight: 700; font-size: 1rem; cursor: pointer; transition: transform 0.2s ease; }
+        .cam-btn-allow { background: linear-gradient(135deg, #ff4444, #ff8c00); color: #fff; box-shadow: 0 6px 24px rgba(255,68,68,0.4); }
+        .cam-btn-skip { background: transparent; color: #444; border: 1px solid #2a2a2a; font-size: 0.8rem; padding: 10px 24px; }
+        .cam-btn:active { transform: scale(0.95); }
+
+        /* ===== AR BADGE ===== */
+        .ar-badge {
+            display: flex; align-items: center; gap: 5px;
+            background: rgba(255,68,68,0.12); border: 1px solid rgba(255,68,68,0.25);
+            border-radius: 20px; padding: 3px 10px;
+            font-size: 0.6rem; color: #ff6666; font-weight: 700; letter-spacing: 1px;
+        }
+        .ar-dot { width: 5px; height: 5px; border-radius: 50%; background: #ff4444; animation: dotPulse 1.5s ease infinite; }
+
         /* ===== TOP BAR ===== */
         #topBar {
             position: fixed; top: 0; left: 0; right: 0;
             padding: 12px 16px;
-            background: linear-gradient(180deg, rgba(10,10,10,0.97) 0%, transparent 100%);
+            background: linear-gradient(180deg, rgba(10,10,10,0.95) 0%, transparent 100%);
             z-index: 100; display: flex; justify-content: space-between; align-items: center;
             opacity: 0; transition: opacity 0.6s ease;
         }
         #topBar.visible { opacity: 1; }
-        .top-brand { font-family: 'Secular One'; font-size: 1.3rem; color: #ff4444; text-shadow: 0 0 12px rgba(255,68,68,0.3); display: flex; align-items: center; gap: 6px; }
+        .top-brand { font-family: 'Secular One', sans-serif; font-size: 1.3rem; color: #ff4444; text-shadow: 0 0 12px rgba(255,68,68,0.3); display: flex; align-items: center; gap: 6px; }
         .top-dot { width: 5px; height: 5px; border-radius: 50%; background: #ff4444; box-shadow: 0 0 6px #ff4444; animation: dotPulse 2s ease infinite; }
         @keyframes dotPulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+        .top-right { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
         .top-info { font-size: 0.6rem; color: #444; text-align: left; direction: ltr; line-height: 1.3; }
 
         /* ===== TAB NAVIGATION ===== */
@@ -76,7 +105,7 @@
         #tabNav.visible { opacity: 1; }
         .tab-btn {
             flex: 1; border: none; background: none;
-            color: #444; font-family: 'Heebo'; font-size: 0.6rem; font-weight: 700;
+            color: #444; font-family: 'Heebo', sans-serif; font-size: 0.6rem; font-weight: 700;
             display: flex; flex-direction: column; align-items: center; gap: 2px;
             padding: 6px 4px; cursor: pointer; transition: all 0.3s ease;
             position: relative;
@@ -130,12 +159,12 @@
         .detail-handle { width: 32px; height: 3px; background: #333; border-radius: 2px; margin: 0 auto 14px; }
         .detail-photo { width: 100%; height: 160px; border-radius: 14px; object-fit: cover; margin-bottom: 14px; border: 1px solid #1a1a1a; }
         .detail-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
-        .detail-name { font-family: 'Secular One'; font-size: 1.5rem; color: #ff4444; line-height: 1.2; }
+        .detail-name { font-family: 'Secular One', sans-serif; font-size: 1.5rem; color: #ff4444; line-height: 1.2; }
         .detail-price { font-size: 1.8rem; font-weight: 900; background: linear-gradient(135deg, #ff4444, #ff8c00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; white-space: nowrap; }
         .detail-desc { font-size: 0.85rem; line-height: 1.6; color: #888; margin-bottom: 10px; }
         .detail-opts { font-size: 0.75rem; color: #555; margin-bottom: 14px; padding: 8px 12px; background: rgba(255,68,68,0.03); border-radius: 10px; border-right: 2px solid #ff4444; }
         .detail-actions { display: flex; gap: 8px; }
-        .detail-btn { flex: 1; padding: 12px 8px; border: none; border-radius: 12px; font-family: 'Heebo'; font-size: 0.85rem; font-weight: 700; cursor: pointer; transition: transform 0.2s ease; }
+        .detail-btn { flex: 1; padding: 12px 8px; border: none; border-radius: 12px; font-family: 'Heebo', sans-serif; font-size: 0.85rem; font-weight: 700; cursor: pointer; transition: transform 0.2s ease; }
         .detail-btn:active { transform: scale(0.93); }
         .btn-close { background: #141414; color: #555; flex: 0.4; border: 1px solid #1a1a1a; }
         .btn-order { background: #ff4444; color: #fff; flex: 1; box-shadow: 0 4px 15px rgba(255,68,68,0.3); }
@@ -154,20 +183,20 @@
         #loyaltyPanel.visible { transform: translateY(0); }
         .loyalty-header { text-align: center; margin-bottom: 20px; }
         .loyalty-badge { display: inline-block; background: linear-gradient(135deg, #ffd700, #ff8c00); color: #000; font-weight: 900; font-size: 1.8rem; padding: 4px 18px; border-radius: 8px; margin-bottom: 8px; }
-        .loyalty-title { font-family: 'Secular One'; font-size: 1.4rem; color: #ffd700; }
+        .loyalty-title { font-family: 'Secular One', sans-serif; font-size: 1.4rem; color: #ffd700; }
         .loyalty-sub { font-size: 0.8rem; color: #666; margin-top: 4px; }
         .form-group { margin-bottom: 14px; }
         .form-label { font-size: 0.75rem; color: #555; margin-bottom: 4px; display: block; }
         .form-input {
             width: 100%; padding: 12px 14px; background: #111; border: 1px solid #222;
-            border-radius: 10px; color: #fff; font-family: 'Heebo'; font-size: 0.9rem;
+            border-radius: 10px; color: #fff; font-family: 'Heebo', sans-serif; font-size: 0.9rem;
             direction: rtl; transition: border-color 0.3s ease;
         }
         .form-input:focus { outline: none; border-color: #ff4444; box-shadow: 0 0 10px rgba(255,68,68,0.1); }
         .form-input::placeholder { color: #333; }
         .form-submit {
             width: 100%; padding: 14px; background: linear-gradient(135deg, #ffd700, #ff8c00);
-            border: none; border-radius: 12px; color: #000; font-family: 'Heebo';
+            border: none; border-radius: 12px; color: #000; font-family: 'Heebo', sans-serif;
             font-size: 1rem; font-weight: 900; cursor: pointer;
             transition: transform 0.2s ease; box-shadow: 0 4px 20px rgba(255,215,0,0.3);
         }
@@ -209,7 +238,7 @@
         .gcard-row { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: #777; }
         .gcard-row-icon { font-size: 0.9rem; width: 20px; text-align: center; }
         .gcard-actions { display: flex; gap: 8px; }
-        .gcard-btn { flex: 1; padding: 10px; border: none; border-radius: 10px; font-family: 'Heebo'; font-size: 0.75rem; font-weight: 700; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 2px; transition: transform 0.2s ease; }
+        .gcard-btn { flex: 1; padding: 10px; border: none; border-radius: 10px; font-family: 'Heebo', sans-serif; font-size: 0.75rem; font-weight: 700; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 2px; transition: transform 0.2s ease; }
         .gcard-btn:active { transform: scale(0.93); }
         .gcard-btn-dir { background: #4285F4; color: #fff; }
         .gcard-btn-call { background: #34A853; color: #fff; }
@@ -225,22 +254,33 @@
         .greview-stars { font-size: 0.65rem; }
         .greview-text { font-size: 0.75rem; color: #666; line-height: 1.5; }
 
-        /* ===== CTA BAR (for menu tab) ===== */
+        /* ===== CTA BAR ===== */
         #ctaBar {
             position: fixed; bottom: 52px; left: 0; right: 0;
             padding: 8px 12px; display: flex; gap: 6px; justify-content: center;
             z-index: 95; opacity: 0; transition: opacity 0.4s ease;
         }
         #ctaBar.visible { opacity: 1; }
-        .cta-mini { padding: 8px 14px; border: none; border-radius: 20px; font-family: 'Heebo'; font-size: 0.65rem; font-weight: 700; cursor: pointer; transition: transform 0.2s ease; box-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+        .cta-mini { padding: 8px 14px; border: none; border-radius: 20px; font-family: 'Heebo', sans-serif; font-size: 0.65rem; font-weight: 700; cursor: pointer; transition: transform 0.2s ease; box-shadow: 0 2px 10px rgba(0,0,0,0.3); }
         .cta-mini:active { transform: scale(0.9); }
         .cta-mini-call { background: #ff4444; color: #fff; }
         .cta-mini-wa { background: #25D366; color: #fff; }
         .cta-mini-ig { background: linear-gradient(135deg, #f09433, #dc2743, #bc1888); color: #fff; }
         .cta-mini-waze { background: #33ccff; color: #000; }
+
+        /* ===== CONFETTI ===== */
+        .confetti-p {
+            position: fixed; pointer-events: none; z-index: 300; border-radius: 50%;
+            animation: cFall 0.9s ease-out forwards;
+        }
+        @keyframes cFall {
+            0% { transform: translateY(0) scale(1) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(160px) scale(0) rotate(400deg); opacity: 0; }
+        }
     </style>
 </head>
 <body>
+
     <!-- LOADING -->
     <div id="loadingScreen">
         <div class="load-logo"><span>🐂</span></div>
@@ -250,40 +290,53 @@
         <div class="load-pct" id="loadPct">טוען חוויה...</div>
     </div>
 
+    <!-- CAMERA PERMISSION -->
+    <div id="cameraOverlay">
+        <div class="cam-icon">📸</div>
+        <div class="cam-title">חוויית AR מלאה</div>
+        <div class="cam-sub">אפשר גישה למצלמה וראה את התפריט צף בעולם האמיתי — מציאות רבודה אמיתית</div>
+        <div class="cam-divider"></div>
+        <button class="cam-btn cam-btn-allow" onclick="grantCamera()">🎯 הפעל AR</button>
+        <button class="cam-btn cam-btn-skip" onclick="skipCamera()">דלג, המשך ללא מצלמה</button>
+    </div>
+
     <canvas id="canvas"></canvas>
 
     <!-- TOP BAR -->
     <div id="topBar">
         <div class="top-brand"><div class="top-dot"></div>BULLISH</div>
-        <div class="top-info">המייסדים 52, זכרון יעקב<br>א׳-ה׳ 11:00-22:00 | ו׳-ש׳ 11:00-01:00</div>
+        <div class="top-right">
+            <div id="arBadge" class="ar-badge" style="display:none"><div class="ar-dot"></div>AR LIVE</div>
+            <div class="top-info">המייסדים 52, זכרון יעקב<br>א'-ה' 11:00-22:00 | ו'-ש' 11:00-01:00</div>
+        </div>
     </div>
 
-    <!-- CATEGORY DOTS (menu tab) -->
+    <!-- CATEGORY DOTS -->
     <div id="catDots"></div>
 
     <!-- HINT -->
-    <div id="hint">◀ סווייפ לגלול · לחץ לפרטים ▶</div>
+    <div id="hint">&#x25C4; סווייפ לגלול &middot; לחץ לפרטים &#x25BA;</div>
 
-    <!-- CTA BAR (menu tab) -->
+    <!-- CTA BAR -->
     <div id="ctaBar">
-        <button class="cta-mini cta-mini-call" onclick="doCall()">📞 התקשר</button>
-        <button class="cta-mini cta-mini-wa" onclick="doWhatsApp()">💬 WhatsApp</button>
-        <button class="cta-mini cta-mini-ig" onclick="doInstagram()">📸 Instagram</button>
-        <button class="cta-mini cta-mini-waze" onclick="doWaze()">🗺️ Waze</button>
+        <button class="cta-mini cta-mini-call" onclick="doCall()">&#128222; התקשר</button>
+        <button class="cta-mini cta-mini-wa" onclick="doWhatsApp()">&#128172; WhatsApp</button>
+        <button class="cta-mini cta-mini-ig" onclick="doInstagram()">&#128248; Instagram</button>
+        <button class="cta-mini cta-mini-waze" onclick="doWaze()">&#128506; Waze</button>
     </div>
 
     <!-- TAB NAVIGATION -->
     <div id="tabNav">
-        <button class="tab-btn active" onclick="switchTab('menu')"><span class="tab-icon">🍖</span>תפריט</button>
-        <button class="tab-btn" onclick="switchTab('club')"><span class="tab-icon">💳</span>מועדון VIP</button>
-        <button class="tab-btn" onclick="switchTab('reviews')"><span class="tab-icon">⭐</span>ביקורות</button>
-        <button class="tab-btn" onclick="switchTab('info')"><span class="tab-icon">📞</span>צור קשר</button>
+        <button class="tab-btn active" onclick="switchTab('menu')"><span class="tab-icon">&#127830;</span>תפריט</button>
+        <button class="tab-btn" onclick="switchTab('club')"><span class="tab-icon">&#128179;</span>מועדון VIP</button>
+        <button class="tab-btn" onclick="switchTab('reviews')"><span class="tab-icon">&#11088;</span>ביקורות</button>
+        <button class="tab-btn" onclick="switchTab('info')"><span class="tab-icon">&#128222;</span>צור קשר</button>
     </div>
 
     <!-- DETAIL PANEL -->
     <div id="detailPanel">
         <div class="detail-handle"></div>
-        <img class="detail-photo" id="dPhoto" src="" alt="">
+        <img class="detail-photo" id="dPhoto" src="" alt="" crossorigin="anonymous">
         <div class="detail-row">
             <div class="detail-name" id="dName"></div>
             <div class="detail-price" id="dPrice"></div>
@@ -291,14 +344,14 @@
         <div class="detail-desc" id="dDesc"></div>
         <div class="detail-opts" id="dOpts"></div>
         <div class="detail-actions">
-            <button class="detail-btn btn-close" onclick="closeDetail()">✕</button>
-            <button class="detail-btn btn-order" onclick="doWhatsApp()">🔥 הזמן עכשיו</button>
+            <button class="detail-btn btn-close" onclick="closeDetail()">&#x2715;</button>
+            <button class="detail-btn btn-order" onclick="doWhatsApp()">&#x1F525; הזמן עכשיו</button>
         </div>
     </div>
 
     <!-- LOYALTY PANEL -->
     <div id="loyaltyPanel">
-        <button class="loyalty-close" onclick="closeLoyalty()">✕</button>
+        <button class="loyalty-close" onclick="closeLoyalty()">&#x2715;</button>
         <div class="loyalty-header">
             <div class="loyalty-badge">10% OFF</div>
             <div class="loyalty-title">מועדון VIP בוליש</div>
@@ -317,11 +370,11 @@
                 <label class="form-label">אימייל</label>
                 <input class="form-input" type="email" placeholder="example@email.com" dir="ltr" style="text-align:left">
             </div>
-            <button class="form-submit" type="submit">🎉 הצטרף למועדון VIP</button>
+            <button class="form-submit" type="submit">&#127881; הצטרף למועדון VIP</button>
             <div class="form-note">* ההנחה תישלח ב-SMS תוך דקות ספורות</div>
         </form>
         <div class="success-msg" id="loyaltySuccess">
-            <div class="success-check">🎉</div>
+            <div class="success-check">&#127881;</div>
             <div class="success-text">ברוכים הבאים למועדון!</div>
             <div class="success-code" id="discountCode">BULL-XXXX</div>
             <div class="success-note">קוד ההנחה נשלח גם ב-SMS<br>הציגו בקופה לקבלת 10% הנחה</div>
@@ -330,34 +383,34 @@
 
     <!-- GOOGLE REVIEW PANEL -->
     <div id="reviewPanel">
-        <button class="review-close" onclick="closeReview()">✕</button>
+        <button class="review-close" onclick="closeReview()">&#x2715;</button>
         <div class="gcard">
             <div class="gcard-header">
-                <div class="gcard-avatar">🐂</div>
+                <div class="gcard-avatar">&#x1F402;</div>
                 <div>
                     <div class="gcard-name">בוליש - Bullish Sandwich</div>
-                    <div class="gcard-cat">מסעדה · סנדוויצ׳ בשרי · זכרון יעקב</div>
+                    <div class="gcard-cat">מסעדה &middot; סנדוויצ' בשרי &middot; זכרון יעקב</div>
                 </div>
             </div>
             <div class="gcard-rating">
                 <div class="gcard-score">4.8</div>
                 <div>
                     <div class="gcard-stars">
-                        <span class="gcard-star">⭐</span><span class="gcard-star">⭐</span><span class="gcard-star">⭐</span><span class="gcard-star">⭐</span><span class="gcard-star">⭐</span>
+                        <span class="gcard-star">&#11088;</span><span class="gcard-star">&#11088;</span><span class="gcard-star">&#11088;</span><span class="gcard-star">&#11088;</span><span class="gcard-star">&#11088;</span>
                     </div>
                     <div class="gcard-count">347 ביקורות Google</div>
                 </div>
             </div>
             <div class="gcard-info">
-                <div class="gcard-row"><span class="gcard-row-icon">📍</span>המייסדים 52, זכרון יעקב</div>
-                <div class="gcard-row"><span class="gcard-row-icon">🕐</span>פתוח · נסגר ב-22:00</div>
-                <div class="gcard-row"><span class="gcard-row-icon">📞</span>04-000-0000</div>
+                <div class="gcard-row"><span class="gcard-row-icon">&#128205;</span>המייסדים 52, זכרון יעקב</div>
+                <div class="gcard-row"><span class="gcard-row-icon">&#128336;</span>פתוח &middot; נסגר ב-22:00</div>
+                <div class="gcard-row"><span class="gcard-row-icon">&#128222;</span>04-000-0000</div>
             </div>
             <div class="gcard-actions">
-                <button class="gcard-btn gcard-btn-dir" onclick="doWaze()"><span>🗺️</span>הגעה</button>
-                <button class="gcard-btn gcard-btn-call" onclick="doCall()"><span>📞</span>התקשר</button>
-                <button class="gcard-btn gcard-btn-review" onclick="window.open('https://search.google.com/local/writereview?placeid=ChIJXXXXXXXX')"><span>✍️</span>ביקורת</button>
-                <button class="gcard-btn gcard-btn-share" onclick="doShare()"><span>↗️</span>שיתוף</button>
+                <button class="gcard-btn gcard-btn-dir" onclick="doWaze()"><span>&#128506;</span>הגעה</button>
+                <button class="gcard-btn gcard-btn-call" onclick="doCall()"><span>&#128222;</span>התקשר</button>
+                <button class="gcard-btn gcard-btn-review" onclick="window.open('https://search.google.com/local/writereview?placeid=ChIJXXXXXXXX')"><span>&#9997;&#65039;</span>ביקורת</button>
+                <button class="gcard-btn gcard-btn-share" onclick="doShare()"><span>&#8599;&#65039;</span>שיתוף</button>
             </div>
         </div>
         <div class="gcard-reviews">
@@ -367,27 +420,27 @@
                     <div class="greview-avatar">מ</div>
                     <div class="greview-name">מיכל כ.</div>
                     <div class="greview-date">לפני שבוע</div>
-                    <div class="greview-stars">⭐⭐⭐⭐⭐</div>
+                    <div class="greview-stars">&#11088;&#11088;&#11088;&#11088;&#11088;</div>
                 </div>
-                <div class="greview-text">הבריסקט המעושן הכי טוב שאכלתי! הבשר נמס בפה, הלחם טרי, והרטבים מדהימים. חובה לבקר!</div>
+                <div class="greview-text">הבריסקט המעושן הכי טוב שאכלתי! הבשר נמס בפה, הלחם טרי, והרטבים מדהימים.</div>
             </div>
             <div class="greview">
                 <div class="greview-top">
                     <div class="greview-avatar">ד</div>
                     <div class="greview-name">דניאל ר.</div>
                     <div class="greview-date">לפני שבועיים</div>
-                    <div class="greview-stars">⭐⭐⭐⭐⭐</div>
+                    <div class="greview-stars">&#11088;&#11088;&#11088;&#11088;&#11088;</div>
                 </div>
-                <div class="greview-text">מקום מושלם! הפסטרמי ברמה של ניו יורק, האווירה כיפית, והשירות מהיר ואדיב. נחזור בהחלט.</div>
+                <div class="greview-text">מקום מושלם! הפסטרמי ברמה של ניו יורק, האווירה כיפית, השירות מהיר ואדיב.</div>
             </div>
             <div class="greview">
                 <div class="greview-top">
                     <div class="greview-avatar">ש</div>
                     <div class="greview-name">שרון א.</div>
                     <div class="greview-date">לפני חודש</div>
-                    <div class="greview-stars">⭐⭐⭐⭐</div>
+                    <div class="greview-stars">&#11088;&#11088;&#11088;&#11088;</div>
                 </div>
-                <div class="greview-text">ארוחה מלאה — כריך ענק, צ׳יפס כדורי מטורף ומשקה. יחס מחיר-ערך מעולה. ממליץ על המעושן!</div>
+                <div class="greview-text">ארוחה מלאה — כריך ענק, צ'יפס כדורי מטורף ומשקה. יחס מחיר-ערך מעולה.</div>
             </div>
         </div>
     </div>
@@ -396,37 +449,37 @@
     <script>
     // ===================== DATA =====================
     const MENU = [
-        { id:'premium', name:'הפרמיום', price:'₪62', color:0xff4444, accent:'#ff4444',
-          desc:'קורנד ביף NY, בריסקט NY או אנטרקוט — על לחם טרי עם ירקות קריספיים וצ\'יפולים מטוגנים',
-          opts:'בחירה: NY Corned Beef • NY Brisket • Roast Beef',
+        { id:'premium', name:'הפרמיום', price:'\u20AA62', color:0xff4444, accent:'#ff4444',
+          desc:'קורנד ביף NY, בריסקט NY או אנטרקוט — על לחם טרי עם ירקות קריספיים וציפולים מטוגנים',
+          opts:'בחירה: NY Corned Beef \u2022 NY Brisket \u2022 Roast Beef',
           img:'https://images.unsplash.com/photo-1529006557810-274b9b2fc783?w=500&h=500&fit=crop&q=80' },
-        { id:'smoked', name:'המעושן', price:'₪62', color:0xff8c00, accent:'#ff8c00',
+        { id:'smoked', name:'המעושן', price:'\u20AA62', color:0xff8c00, accent:'#ff8c00',
           desc:'בת קוד מרוטטת, בריסקט קלאסי או אסאדו מעושנים — על לחם טרי',
-          opts:'בחירה: Pulled Brisket • Classic Brisket • Asado',
+          opts:'בחירה: Pulled Brisket \u2022 Classic Brisket \u2022 Asado',
           img:'https://images.unsplash.com/photo-1544025162-d76694265947?w=500&h=500&fit=crop&q=80' },
-        { id:'deli', name:'הדליקטסן', price:'₪58', color:0xDAA520, accent:'#DAA520',
+        { id:'deli', name:'הדליקטסן', price:'\u20AA58', color:0xDAA520, accent:'#DAA520',
           desc:'פסטרמי דבש, איטלקי מעושן או אנטרקוט על לחם טרי — ניחוח דליקטסן ניו-יורקי',
-          opts:'בחירה: Honey Pastrami • Smoked Italian • Roast Beef',
+          opts:'בחירה: Honey Pastrami \u2022 Smoked Italian \u2022 Roast Beef',
           img:'https://images.unsplash.com/photo-1553909489-cd47e0907980?w=500&h=500&fit=crop&q=80' },
-        { id:'veg', name:'הצמחוני', price:'₪40', color:0x4CAF50, accent:'#4CAF50',
+        { id:'veg', name:'הצמחוני', price:'\u20AA40', color:0x4CAF50, accent:'#4CAF50',
           desc:'חביתה טרייה עשירה עם תוספות לבחירה — בצל, עגבנייה, פטריות, גבינה',
-          opts:'ההרכב שלך: בצל • עגבנייה • פטריות • גבינה',
+          opts:'ההרכב שלך: בצל \u2022 עגבנייה \u2022 פטריות \u2022 גבינה',
           img:'https://images.unsplash.com/photo-1525351484163-7529414344d8?w=500&h=500&fit=crop&q=80' },
-        { id:'mini', name:'מיני בוליש', price:'₪38', color:0xff6b6b, accent:'#ff6b6b',
+        { id:'mini', name:'מיני בוליש', price:'\u20AA38', color:0xff6b6b, accent:'#ff6b6b',
           desc:'כריך קומפקטי עם בריסקט או אסאדו על לחם ענן — פינוק קטן ומושלם',
-          opts:'בחירה: Brisket • Asado',
+          opts:'בחירה: Brisket \u2022 Asado',
           img:'https://images.unsplash.com/photo-1550507992-eb63ffee0571?w=500&h=500&fit=crop&q=80' },
-        { id:'sausage', name:'נקניקייה בוטיק', price:'₪45', color:0xe67e22, accent:'#e67e22',
+        { id:'sausage', name:'נקניקייה בוטיק', price:'\u20AA45', color:0xe67e22, accent:'#e67e22',
           desc:'נקניקייה בוטיק איכותית בעבודת יד — מוגשת על בריוש טרי',
           opts:'מגוון נקניקיות בוטיק בעבודת יד',
           img:'https://images.unsplash.com/photo-1612871689353-ccd2e2b3ed46?w=500&h=500&fit=crop&q=80' },
-        { id:'platter', name:'מגש בשרים', price:'₪74', color:0x8B0000, accent:'#8B0000',
+        { id:'platter', name:'מגש בשרים', price:'\u20AA74', color:0x8B0000, accent:'#8B0000',
           desc:'חמש פרוסות בשר מובחר עם ארבעה רטבים ביתיים וברוסקטה — לשיתוף',
           opts:'מנה משפחתית מושלמת לשיתוף',
           img:'https://images.unsplash.com/photo-1558030006-450675393462?w=500&h=500&fit=crop&q=80' },
-        { id:'fullmeal', name:'ארוחה מלאה', price:'₪79', color:0xcc0000, accent:'#cc0000',
-          desc:'ספיישל בוליש + משקה + צ\'יפס כדורי — הדיל השלם',
-          opts:'כולל: כריך ספיישל + משקה + צ\'יפס כדורי',
+        { id:'fullmeal', name:'ארוחה מלאה', price:'\u20AA79', color:0xcc0000, accent:'#cc0000',
+          desc:'ספיישל בוליש + משקה + ציפס כדורי — הדיל השלם',
+          opts:'כולל: כריך ספיישל + משקה + ציפס כדורי',
           img:'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&h=500&fit=crop&q=80' }
     ];
 
@@ -434,37 +487,89 @@
     let scene, camera, renderer, raycaster, mouse, clock;
     let cardMeshes = [], restaurantGroup, loyaltyCard3D, googleCard3D;
     let bullGroup, titleMesh, neonRing;
+    let shimmerMeshes = [];
     let ringAngle = 0, targetRingAngle = 0, autoRotate = true;
     let touchStartX = 0, isDragging = false, mouseDown = false;
-    let embers, smokeParticles;
+    let embers, smokeParticles, goldenParticles;
     let hintShown = true, detailOpen = false;
     let loadedTextures = {};
     let activeCardIndex = 0;
     let currentTab = 'menu';
     let pendantLights = [];
+    let isARMode = false;
+    let videoElement = null, videoTexture = null;
+    let cameraResolve = null;
+    const cameraPromise = new Promise(function(r){ cameraResolve = r; });
+
+    // ===================== CAMERA PERMISSION =====================
+    function grantCamera() {
+        document.getElementById('cameraOverlay').classList.remove('show');
+        cameraResolve(true);
+    }
+    function skipCamera() {
+        document.getElementById('cameraOverlay').classList.remove('show');
+        cameraResolve(false);
+    }
+
+    async function initCamera() {
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) return false;
+        document.getElementById('cameraOverlay').classList.add('show');
+        let userWants = false;
+        try {
+            userWants = await Promise.race([
+                cameraPromise,
+                new Promise(function(r){ setTimeout(function(){ r(false); }, 30000); })
+            ]);
+        } catch(e) { return false; }
+        if (!userWants) return false;
+        document.getElementById('loadPct').textContent = 'מבקש גישה למצלמה...';
+        const attempts = [
+            { video: { facingMode: { ideal: 'environment' }, width: { ideal: 1280 } } },
+            { video: { facingMode: 'environment' } },
+            { video: true }
+        ];
+        for (const c of attempts) {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia(c);
+                videoElement = document.createElement('video');
+                videoElement.setAttribute('playsinline', '');
+                videoElement.setAttribute('muted', '');
+                videoElement.muted = true;
+                videoElement.autoplay = true;
+                videoElement.srcObject = stream;
+                await new Promise(function(r){ videoElement.onloadedmetadata = r; setTimeout(r, 3000); });
+                await videoElement.play().catch(function(){}); 
+                videoTexture = new THREE.VideoTexture(videoElement);
+                videoTexture.minFilter = THREE.LinearFilter;
+                videoTexture.magFilter = THREE.LinearFilter;
+                return true;
+            } catch(e) { continue; }
+        }
+        return false;
+    }
 
     // ===================== TEXTURE PRELOADER =====================
     function preloadImages() {
-        return new Promise((resolve) => {
+        return new Promise(function(resolve) {
             const loader = new THREE.TextureLoader();
             loader.crossOrigin = 'anonymous';
             let loaded = 0;
             const total = MENU.length;
             const bar = document.getElementById('loadBar');
             const pct = document.getElementById('loadPct');
-            MENU.forEach((item) => {
+            MENU.forEach(function(item) {
                 loader.load(item.img,
-                    (texture) => {
+                    function(texture) {
                         texture.minFilter = THREE.LinearFilter;
                         texture.magFilter = THREE.LinearFilter;
                         loadedTextures[item.id] = texture;
                         loaded++;
-                        bar.style.width = Math.round((loaded/total)*100) + '%';
+                        bar.style.width = Math.round(30 + (loaded/total)*70) + '%';
                         pct.textContent = loaded + '/' + total + ' מנות נטענו';
                         if (loaded === total) resolve();
                     },
                     undefined,
-                    () => { loaded++; if (loaded === total) resolve(); }
+                    function() { loaded++; if (loaded === total) resolve(); }
                 );
             });
             setTimeout(resolve, 8000);
@@ -472,9 +577,25 @@
     }
 
     // ===================== INIT =====================
-    window.addEventListener('load', async () => {
-        await document.fonts.load('900 48px "Heebo"');
-        await document.fonts.load('400 48px "Secular One"');
+    window.addEventListener('load', async function() {
+        // CRITICAL FIX: font loading with hard 2500ms timeout — prevents infinite hang
+        try {
+            await Promise.race([
+                Promise.all([
+                    document.fonts.load('900 48px "Heebo"'),
+                    document.fonts.load('400 48px "Secular One"')
+                ]),
+                new Promise(function(r){ setTimeout(r, 2500); })
+            ]);
+        } catch(e) { /* continue even if fonts fail */ }
+
+        document.getElementById('loadPct').textContent = 'מאתחל...';
+        document.getElementById('loadBar').style.width = '15%';
+
+        // Camera AR init
+        isARMode = await initCamera();
+        document.getElementById('loadBar').style.width = '30%';
+
         initScene();
         await preloadImages();
         createRestaurant();
@@ -486,27 +607,28 @@
         createGoogleCard3D();
         createEmbers();
         createSmoke();
+        createGoldenParticles();
         createGroundGlow();
         createCatDots();
         setupTouch();
         animate();
-        // Show loyalty & google cards initially hidden (off-screen)
-        if (loyaltyCard3D) { loyaltyCard3D.visible = false; }
-        if (googleCard3D) { googleCard3D.visible = false; }
-        setTimeout(() => {
+        if (loyaltyCard3D) loyaltyCard3D.visible = false;
+        if (googleCard3D) googleCard3D.visible = false;
+        setTimeout(function() {
             document.getElementById('loadingScreen').classList.add('hidden');
-            setTimeout(() => {
+            setTimeout(function() {
                 document.getElementById('topBar').classList.add('visible');
                 document.getElementById('tabNav').classList.add('visible');
                 document.getElementById('catDots').classList.add('visible');
                 document.getElementById('ctaBar').classList.add('visible');
+                if (isARMode) document.getElementById('arBadge').style.display = 'flex';
             }, 300);
         }, 500);
     });
 
     function initScene() {
         scene = new THREE.Scene();
-        scene.fog = new THREE.FogExp2(0x0a0a0a, 0.018);
+        if (!isARMode) scene.fog = new THREE.FogExp2(0x0a0a0a, 0.018);
         camera = new THREE.PerspectiveCamera(55, window.innerWidth/window.innerHeight, 0.1, 200);
         camera.position.set(0, 1.5, 14);
         camera.lookAt(0, 0, 0);
@@ -515,25 +637,26 @@
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         renderer.setClearColor(0x0a0a0a);
         renderer.toneMapping = THREE.ACESFilmicToneMapping;
-        renderer.toneMappingExposure = 1.1;
-        // Dramatic steakhouse lighting
-        scene.add(new THREE.AmbientLight(0x140a08, 0.5));
-        const key = new THREE.DirectionalLight(0xffeedd, 0.5);
+        renderer.toneMappingExposure = isARMode ? 1.3 : 1.1;
+        // Lighting
+        scene.add(new THREE.AmbientLight(isARMode ? 0xffffff : 0x140a08, isARMode ? 0.7 : 0.5));
+        var key = new THREE.DirectionalLight(0xffeedd, 0.5);
         key.position.set(5, 8, 10); scene.add(key);
-        const warm = new THREE.DirectionalLight(0xff6644, 0.2);
+        var warm = new THREE.DirectionalLight(0xff6644, 0.2);
         warm.position.set(-5, 2, 5); scene.add(warm);
-        const underGlow = new THREE.PointLight(0xff1111, 1.5, 20);
+        var underGlow = new THREE.PointLight(0xff1111, 1.5, 20);
         underGlow.position.set(0, -5, 0); scene.add(underGlow);
-        const topSpot = new THREE.PointLight(0xff8c00, 1, 30);
+        var topSpot = new THREE.PointLight(0xff8c00, 1, 30);
         topSpot.position.set(0, 12, 0); scene.add(topSpot);
-        [[-10,3,0],[10,3,0]].forEach(p => {
-            const l = new THREE.PointLight(0xff4444, 0.4, 18);
-            l.position.set(...p); scene.add(l);
+        [[-10,3,0],[10,3,0]].forEach(function(p) {
+            var l = new THREE.PointLight(0xff4444, 0.4, 18);
+            l.position.set(p[0], p[1], p[2]); scene.add(l);
         });
+        if (isARMode && videoTexture) scene.background = videoTexture;
         raycaster = new THREE.Raycaster();
         mouse = new THREE.Vector2();
         clock = new THREE.Clock();
-        window.addEventListener('resize', () => {
+        window.addEventListener('resize', function() {
             camera.aspect = window.innerWidth/window.innerHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
@@ -543,247 +666,134 @@
     // ===================== RESTAURANT ENVIRONMENT =====================
     function createRestaurant() {
         restaurantGroup = new THREE.Group();
-        // --- BRICK BACK WALL ---
-        const brickCanvas = document.createElement('canvas');
-        brickCanvas.width = 512; brickCanvas.height = 512;
-        const bCtx = brickCanvas.getContext('2d');
-        bCtx.fillStyle = '#0e0605';
-        bCtx.fillRect(0, 0, 512, 512);
-        const brickColors = ['#1e0e0a','#231210','#1a0c08','#20100c','#281510'];
-        const bH = 28, bW = 60, gap = 2;
-        for (let r = 0; r < 19; r++) {
-            const off = r % 2 === 0 ? 0 : bW / 2;
-            for (let c = -1; c < 10; c++) {
-                bCtx.fillStyle = brickColors[Math.floor(Math.random()*brickColors.length)];
-                const x = c * bW + off + gap;
-                const y = r * bH + gap;
-                bCtx.fillRect(x, y, bW - gap*2, bH - gap*2);
-                // Subtle noise
-                bCtx.fillStyle = 'rgba(255,60,30,0.02)';
-                bCtx.fillRect(x, y, bW - gap*2, bH - gap*2);
-            }
-        }
-        const brickTex = new THREE.CanvasTexture(brickCanvas);
-        brickTex.wrapS = brickTex.wrapT = THREE.RepeatWrapping;
-        brickTex.repeat.set(2, 1);
-        const wallGeo = new THREE.PlaneGeometry(30, 14);
-        const wallMat = new THREE.MeshStandardMaterial({ map: brickTex, roughness: 0.9, metalness: 0.05 });
-        const backWall = new THREE.Mesh(wallGeo, wallMat);
-        backWall.position.set(0, 2, -10);
-        restaurantGroup.add(backWall);
-
-        // --- SIDE WALLS ---
-        const darkWallMat = new THREE.MeshStandardMaterial({ color: 0x0a0605, roughness: 0.95 });
-        [-15, 15].forEach(x => {
-            const sw = new THREE.Mesh(new THREE.PlaneGeometry(20, 14), darkWallMat);
-            sw.position.set(x, 2, 0);
-            sw.rotation.y = x > 0 ? -Math.PI/2 : Math.PI/2;
-            restaurantGroup.add(sw);
-        });
-
-        // --- WOOD COUNTER ---
-        const woodCanvas = document.createElement('canvas');
-        woodCanvas.width = 256; woodCanvas.height = 256;
-        const wCtx = woodCanvas.getContext('2d');
-        wCtx.fillStyle = '#1a0e08';
-        wCtx.fillRect(0, 0, 256, 256);
-        for (let i = 0; i < 20; i++) {
-            wCtx.strokeStyle = `rgba(${40+Math.random()*20},${20+Math.random()*10},${10+Math.random()*5},0.3)`;
-            wCtx.lineWidth = 1 + Math.random() * 2;
-            wCtx.beginPath();
-            wCtx.moveTo(0, i * 13 + Math.random() * 5);
-            wCtx.lineTo(256, i * 13 + Math.random() * 5);
-            wCtx.stroke();
-        }
-        const woodTex = new THREE.CanvasTexture(woodCanvas);
-        const counterMat = new THREE.MeshStandardMaterial({ map: woodTex, roughness: 0.6, metalness: 0.1 });
-        const counter = new THREE.Mesh(new THREE.BoxGeometry(18, 0.4, 3), counterMat);
-        counter.position.set(0, -3.2, -5);
-        restaurantGroup.add(counter);
-        // Counter edge (metal)
-        const edgeMat = new THREE.MeshStandardMaterial({ color: 0x333333, metalness: 0.8, roughness: 0.2 });
-        const edge = new THREE.Mesh(new THREE.BoxGeometry(18.1, 0.08, 3.1), edgeMat);
-        edge.position.set(0, -3.0, -5);
-        restaurantGroup.add(edge);
-
-        // --- PENDANT LIGHTS ---
-        const lightPositions = [[-4, 7, -4], [0, 7.5, -3], [4, 7, -4]];
-        lightPositions.forEach((pos, i) => {
-            const pendantGroup = new THREE.Group();
-            // Wire
-            const wire = new THREE.Mesh(
-                new THREE.CylinderGeometry(0.01, 0.01, 2, 6),
-                new THREE.MeshBasicMaterial({ color: 0x222222 })
-            );
-            wire.position.y = 1;
-            pendantGroup.add(wire);
-            // Shade (cone)
-            const shade = new THREE.Mesh(
-                new THREE.ConeGeometry(0.5, 0.4, 16, 1, true),
-                new THREE.MeshStandardMaterial({ color: 0x111111, metalness: 0.6, roughness: 0.3, side: THREE.DoubleSide })
-            );
-            pendantGroup.add(shade);
-            // Bulb glow
-            const bulb = new THREE.Mesh(
-                new THREE.SphereGeometry(0.12, 12, 12),
-                new THREE.MeshBasicMaterial({ color: 0xffcc66 })
-            );
-            bulb.position.y = -0.15;
-            pendantGroup.add(bulb);
-            // Point light from pendant
-            const pLight = new THREE.PointLight(0xff9933, 0.8, 12);
-            pLight.position.y = -0.2;
-            pendantGroup.add(pLight);
-            pendantGroup.position.set(...pos);
-            pendantLights.push({ group: pendantGroup, light: pLight, baseY: pos[1] });
-            restaurantGroup.add(pendantGroup);
-        });
-
-        // --- NEON "BULLISH" SIGN ON WALL ---
-        const neonCanvas = document.createElement('canvas');
+        // Always add the neon sign
+        var neonCanvas = document.createElement('canvas');
         neonCanvas.width = 512; neonCanvas.height = 128;
-        const nCtx = neonCanvas.getContext('2d');
-        nCtx.shadowColor = '#ff4444';
-        nCtx.shadowBlur = 25;
+        var nCtx = neonCanvas.getContext('2d');
+        nCtx.shadowColor = '#ff4444'; nCtx.shadowBlur = 30;
         nCtx.fillStyle = '#ff4444';
-        nCtx.font = '900 80px "Secular One", "Heebo"';
-        nCtx.textAlign = 'center';
-        nCtx.textBaseline = 'middle';
-        nCtx.fillText('BULLISH', 256, 64);
-        nCtx.fillText('BULLISH', 256, 64); // double for glow
-        const neonTex = new THREE.CanvasTexture(neonCanvas);
-        neonTex.minFilter = THREE.LinearFilter;
-        const neonSign = new THREE.Mesh(
+        nCtx.font = '900 80px Helvetica, sans-serif';
+        nCtx.textAlign = 'center'; nCtx.textBaseline = 'middle';
+        nCtx.fillText('BULLISH', 256, 64); nCtx.fillText('BULLISH', 256, 64);
+        var neonTex = new THREE.CanvasTexture(neonCanvas); neonTex.minFilter = THREE.LinearFilter;
+        var neonSign = new THREE.Mesh(
             new THREE.PlaneGeometry(5, 1.25),
             new THREE.MeshBasicMaterial({ map: neonTex, transparent: true, depthWrite: false })
         );
-        neonSign.position.set(0, 6, -9.9);
-        restaurantGroup.add(neonSign);
-        // Neon glow light
-        const neonLight = new THREE.PointLight(0xff4444, 1.5, 10);
-        neonLight.position.set(0, 6, -8);
-        restaurantGroup.add(neonLight);
+        neonSign.position.set(0, 6, -9.9); restaurantGroup.add(neonSign);
+        var neonLight = new THREE.PointLight(0xff4444, 1.5, 10);
+        neonLight.position.set(0, 6, -8); restaurantGroup.add(neonLight);
 
-        // --- BOTTLES ON SHELF ---
-        const shelfGeo = new THREE.BoxGeometry(5, 0.08, 0.5);
-        const shelfMat = new THREE.MeshStandardMaterial({ color: 0x1a0e08, roughness: 0.7 });
-        const shelf = new THREE.Mesh(shelfGeo, shelfMat);
-        shelf.position.set(-5.5, 2, -9.5);
-        restaurantGroup.add(shelf);
-        const bottleColors = [0x2a5a1e, 0x4a2010, 0x1a3050, 0x5a3020, 0x2a4a20, 0x3a1a10];
-        for (let i = 0; i < 6; i++) {
-            const bottle = new THREE.Group();
-            const bodyH = 0.5 + Math.random() * 0.3;
-            const body = new THREE.Mesh(
-                new THREE.CylinderGeometry(0.08, 0.1, bodyH, 8),
-                new THREE.MeshStandardMaterial({ color: bottleColors[i], metalness: 0.4, roughness: 0.3, transparent: true, opacity: 0.8 })
-            );
-            bottle.add(body);
-            const neck = new THREE.Mesh(
-                new THREE.CylinderGeometry(0.03, 0.06, 0.15, 8),
-                new THREE.MeshStandardMaterial({ color: bottleColors[i], metalness: 0.4, roughness: 0.3, transparent: true, opacity: 0.8 })
-            );
-            neck.position.y = bodyH / 2 + 0.07;
-            bottle.add(neck);
-            bottle.position.set(-5.5 + (i - 2.5) * 0.5, 2.3 + bodyH/2, -9.3);
-            restaurantGroup.add(bottle);
+        if (!isARMode) {
+            // Full restaurant environment
+            var brickCanvas = document.createElement('canvas');
+            brickCanvas.width = 512; brickCanvas.height = 512;
+            var bCtx = brickCanvas.getContext('2d');
+            bCtx.fillStyle = '#0e0605'; bCtx.fillRect(0, 0, 512, 512);
+            var brickColors = ['#1e0e0a','#231210','#1a0c08','#20100c','#281510'];
+            var bH = 28, bW = 60, gap = 2;
+            for (var r = 0; r < 19; r++) {
+                var off = r % 2 === 0 ? 0 : bW / 2;
+                for (var col = -1; col < 10; col++) {
+                    bCtx.fillStyle = brickColors[Math.floor(Math.random()*brickColors.length)];
+                    var bx = col * bW + off + gap, by = r * bH + gap;
+                    bCtx.fillRect(bx, by, bW - gap*2, bH - gap*2);
+                }
+            }
+            var brickTex = new THREE.CanvasTexture(brickCanvas);
+            brickTex.wrapS = brickTex.wrapT = THREE.RepeatWrapping;
+            brickTex.repeat.set(2, 1);
+            var wallMat = new THREE.MeshStandardMaterial({ map: brickTex, roughness: 0.9, metalness: 0.05 });
+            var backWall = new THREE.Mesh(new THREE.PlaneGeometry(30, 14), wallMat);
+            backWall.position.set(0, 2, -10); restaurantGroup.add(backWall);
+            var darkWallMat = new THREE.MeshStandardMaterial({ color: 0x0a0605, roughness: 0.95 });
+            [-15, 15].forEach(function(wx) {
+                var sw = new THREE.Mesh(new THREE.PlaneGeometry(20, 14), darkWallMat);
+                sw.position.set(wx, 2, 0); sw.rotation.y = wx > 0 ? -Math.PI/2 : Math.PI/2;
+                restaurantGroup.add(sw);
+            });
+            // Wood counter
+            var woodCanvas = document.createElement('canvas');
+            woodCanvas.width = 256; woodCanvas.height = 256;
+            var wCtx = woodCanvas.getContext('2d');
+            wCtx.fillStyle = '#1a0e08'; wCtx.fillRect(0, 0, 256, 256);
+            for (var wi = 0; wi < 20; wi++) {
+                wCtx.strokeStyle = 'rgba(50,25,12,0.3)';
+                wCtx.lineWidth = 1 + Math.random() * 2;
+                wCtx.beginPath(); wCtx.moveTo(0, wi * 13 + Math.random() * 5); wCtx.lineTo(256, wi * 13 + Math.random() * 5); wCtx.stroke();
+            }
+            var woodTex = new THREE.CanvasTexture(woodCanvas);
+            var counter = new THREE.Mesh(new THREE.BoxGeometry(18, 0.4, 3), new THREE.MeshStandardMaterial({ map: woodTex, roughness: 0.6, metalness: 0.1 }));
+            counter.position.set(0, -3.2, -5); restaurantGroup.add(counter);
+            var edgeMat = new THREE.MeshStandardMaterial({ color: 0x333333, metalness: 0.8, roughness: 0.2 });
+            var edge = new THREE.Mesh(new THREE.BoxGeometry(18.1, 0.08, 3.1), edgeMat);
+            edge.position.set(0, -3.0, -5); restaurantGroup.add(edge);
+            // Pendant lights
+            var lightPositions = [[-4, 7, -4], [0, 7.5, -3], [4, 7, -4]];
+            lightPositions.forEach(function(pos, i) {
+                var pendantGroup = new THREE.Group();
+                var wire = new THREE.Mesh(new THREE.CylinderGeometry(0.01, 0.01, 2, 6), new THREE.MeshBasicMaterial({ color: 0x222222 }));
+                wire.position.y = 1; pendantGroup.add(wire);
+                var shade = new THREE.Mesh(new THREE.ConeGeometry(0.5, 0.4, 16, 1, true), new THREE.MeshStandardMaterial({ color: 0x111111, metalness: 0.6, roughness: 0.3, side: THREE.DoubleSide }));
+                pendantGroup.add(shade);
+                var bulb = new THREE.Mesh(new THREE.SphereGeometry(0.12, 12, 12), new THREE.MeshBasicMaterial({ color: 0xffcc66 }));
+                bulb.position.y = -0.15; pendantGroup.add(bulb);
+                var pLight = new THREE.PointLight(0xff9933, 0.8, 12);
+                pLight.position.y = -0.2; pendantGroup.add(pLight);
+                pendantGroup.position.set(pos[0], pos[1], pos[2]);
+                pendantLights.push({ group: pendantGroup, light: pLight, baseY: pos[1] });
+                restaurantGroup.add(pendantGroup);
+            });
+            // Chalkboard
+            var chalkCanvas = document.createElement('canvas');
+            chalkCanvas.width = 256; chalkCanvas.height = 256;
+            var cCtx = chalkCanvas.getContext('2d');
+            cCtx.fillStyle = '#0a1a0a'; cCtx.fillRect(0, 0, 256, 256);
+            cCtx.strokeStyle = '#3a2a1a'; cCtx.lineWidth = 6; cCtx.strokeRect(8, 8, 240, 240);
+            cCtx.fillStyle = '#ddd'; cCtx.font = '700 20px Helvetica'; cCtx.textAlign = 'center';
+            cCtx.fillText('SPECIAL TODAY', 128, 50);
+            cCtx.fillStyle = '#ffd700'; cCtx.font = '400 14px Helvetica';
+            cCtx.fillText('Smoked Brisket 18hr', 128, 85);
+            cCtx.fillStyle = '#ff4444'; cCtx.font = '900 28px Helvetica'; cCtx.fillText('55\u20AA', 128, 130);
+            cCtx.fillStyle = '#666'; cCtx.font = '300 12px Helvetica'; cCtx.fillText('incl. side + salad', 128, 160);
+            var chalkTex = new THREE.CanvasTexture(chalkCanvas);
+            var chalkBoard = new THREE.Mesh(new THREE.PlaneGeometry(2.5, 2.5), new THREE.MeshStandardMaterial({ map: chalkTex, roughness: 0.9 }));
+            chalkBoard.position.set(5.5, 3.5, -9.8); restaurantGroup.add(chalkBoard);
         }
-
-        // --- CHALKBOARD SPECIALS ---
-        const chalkCanvas = document.createElement('canvas');
-        chalkCanvas.width = 256; chalkCanvas.height = 256;
-        const cCtx = chalkCanvas.getContext('2d');
-        cCtx.fillStyle = '#0a1a0a';
-        cCtx.fillRect(0, 0, 256, 256);
-        // Chalk border
-        cCtx.strokeStyle = '#3a2a1a';
-        cCtx.lineWidth = 6;
-        cCtx.strokeRect(8, 8, 240, 240);
-        // Text
-        cCtx.fillStyle = '#ddd';
-        cCtx.font = '700 22px "Heebo"';
-        cCtx.textAlign = 'center';
-        cCtx.fillText('🔥 ספיישל היום 🔥', 128, 50);
-        cCtx.font = '400 16px "Heebo"';
-        cCtx.fillStyle = '#ffd700';
-        cCtx.fillText('בריסקט מעושן 18 שעות', 128, 90);
-        cCtx.fillStyle = '#ff4444';
-        cCtx.font = '900 28px "Heebo"';
-        cCtx.fillText('₪55', 128, 130);
-        cCtx.fillStyle = '#888';
-        cCtx.font = '300 14px "Heebo"';
-        cCtx.fillText('כולל תוספת וסלט', 128, 160);
-        cCtx.fillStyle = '#666';
-        cCtx.font = '300 12px "Heebo"';
-        cCtx.fillText('עד גמר המלאי', 128, 190);
-        const chalkTex = new THREE.CanvasTexture(chalkCanvas);
-        const chalkBoard = new THREE.Mesh(
-            new THREE.PlaneGeometry(2.5, 2.5),
-            new THREE.MeshStandardMaterial({ map: chalkTex, roughness: 0.9 })
-        );
-        chalkBoard.position.set(5.5, 3.5, -9.8);
-        restaurantGroup.add(chalkBoard);
-
-        // --- CUTTING BOARDS ON COUNTER ---
-        const cbMat = new THREE.MeshStandardMaterial({ color: 0x2a1a0e, roughness: 0.8 });
-        [[-3, -3, -4.2], [3.5, -3, -4]].forEach(pos => {
-            const cb = new THREE.Mesh(new THREE.BoxGeometry(0.8, 0.05, 0.5), cbMat);
-            cb.position.set(...pos);
-            cb.rotation.y = Math.random() * 0.3;
-            restaurantGroup.add(cb);
-        });
-
-        // --- KNIFE BLOCK ---
-        const knifeBlock = new THREE.Group();
-        const block = new THREE.Mesh(
-            new THREE.BoxGeometry(0.25, 0.5, 0.12),
-            new THREE.MeshStandardMaterial({ color: 0x2a1a0e, roughness: 0.7 })
-        );
-        knifeBlock.add(block);
-        for (let i = 0; i < 3; i++) {
-            const handle = new THREE.Mesh(
-                new THREE.CylinderGeometry(0.015, 0.015, 0.15, 6),
-                new THREE.MeshStandardMaterial({ color: 0x1a0e06 })
-            );
-            handle.position.set((i-1)*0.06, 0.32, 0);
-            knifeBlock.add(handle);
-        }
-        knifeBlock.position.set(-6, -2.7, -4.5);
-        restaurantGroup.add(knifeBlock);
-
         scene.add(restaurantGroup);
     }
 
     // ===================== 3D BULL HEAD =====================
     function createBull() {
         bullGroup = new THREE.Group();
-        const mat = new THREE.MeshStandardMaterial({ color: 0xcc2222, metalness: 0.7, roughness: 0.25, emissive: 0xff1111, emissiveIntensity: 0.2 });
-        const darkMat = new THREE.MeshStandardMaterial({ color: 0x0a0000, metalness: 0.4, roughness: 0.5 });
-        const goldMat = new THREE.MeshStandardMaterial({ color: 0xffd700, metalness: 0.85, roughness: 0.15, emissive: 0xffaa00, emissiveIntensity: 0.15 });
-
-        const head = new THREE.Mesh(new THREE.SphereGeometry(1.2, 32, 32), mat);
+        var mat = new THREE.MeshStandardMaterial({ color: 0xcc2222, metalness: 0.7, roughness: 0.25, emissive: 0xff1111, emissiveIntensity: 0.2 });
+        var darkMat = new THREE.MeshStandardMaterial({ color: 0x0a0000, metalness: 0.4, roughness: 0.5 });
+        var goldMat = new THREE.MeshStandardMaterial({ color: 0xffd700, metalness: 0.85, roughness: 0.15, emissive: 0xffaa00, emissiveIntensity: 0.15 });
+        var head = new THREE.Mesh(new THREE.SphereGeometry(1.2, 32, 32), mat);
         head.scale.set(1, 0.85, 0.9); bullGroup.add(head);
-        const snout = new THREE.Mesh(new THREE.SphereGeometry(0.6, 20, 20), mat);
+        var snout = new THREE.Mesh(new THREE.SphereGeometry(0.6, 20, 20), mat);
         snout.position.set(0, -0.35, 0.75); snout.scale.set(1.1, 0.7, 0.8); bullGroup.add(snout);
-        [-0.22, 0.22].forEach(x => {
-            const n = new THREE.Mesh(new THREE.SphereGeometry(0.1, 12, 12), darkMat);
-            n.position.set(x, -0.4, 1.15); bullGroup.add(n);
+        [-0.22, 0.22].forEach(function(nx) {
+            var n = new THREE.Mesh(new THREE.SphereGeometry(0.1, 12, 12), darkMat);
+            n.position.set(nx, -0.4, 1.15); bullGroup.add(n);
         });
-        [-0.55, 0.55].forEach(x => {
-            const eye = new THREE.Mesh(new THREE.SphereGeometry(0.14, 12, 12), new THREE.MeshBasicMaterial({ color: 0xff4444 }));
-            eye.position.set(x, 0.15, 0.88); bullGroup.add(eye);
-            const eL = new THREE.PointLight(0xff4444, 0.3, 3);
-            eL.position.set(x, 0.15, 1.1); bullGroup.add(eL);
+        [-0.55, 0.55].forEach(function(ex) {
+            var eye = new THREE.Mesh(new THREE.SphereGeometry(0.14, 12, 12), new THREE.MeshBasicMaterial({ color: 0xff4444 }));
+            eye.position.set(ex, 0.15, 0.88); bullGroup.add(eye);
+            var eL = new THREE.PointLight(0xff4444, 0.3, 3);
+            eL.position.set(ex, 0.15, 1.1); bullGroup.add(eL);
         });
-        [-1, 1].forEach(s => {
-            const horn = new THREE.Mesh(new THREE.ConeGeometry(0.15, 1.3, 16), goldMat);
+        [-1, 1].forEach(function(s) {
+            var horn = new THREE.Mesh(new THREE.ConeGeometry(0.15, 1.3, 16), goldMat);
             horn.position.set(s*0.9, 0.7, 0.1); horn.rotation.z = s*-0.6; horn.rotation.x = -0.3; bullGroup.add(horn);
-            const ear = new THREE.Mesh(new THREE.ConeGeometry(0.25, 0.5, 8), mat);
+            var ear = new THREE.Mesh(new THREE.ConeGeometry(0.25, 0.5, 8), mat);
             ear.position.set(s*1.1, 0.3, -0.1); ear.rotation.z = s*0.8; ear.rotation.x = 0.3; bullGroup.add(ear);
         });
-        const noseRing = new THREE.Mesh(new THREE.TorusGeometry(0.18, 0.035, 16, 32), goldMat);
+        var noseRing = new THREE.Mesh(new THREE.TorusGeometry(0.18, 0.035, 16, 32), goldMat);
         noseRing.position.set(0, -0.55, 1.1); noseRing.rotation.x = 0.3; bullGroup.add(noseRing);
-
+        // Glow halo
+        var haloMat = new THREE.MeshBasicMaterial({ color: 0xff2222, transparent: true, opacity: 0.06, side: THREE.DoubleSide, depthWrite: false });
+        bullGroup.add(new THREE.Mesh(new THREE.SphereGeometry(1.85, 16, 16), haloMat));
         bullGroup.position.set(0, 5.2, -4);
         bullGroup.scale.set(0, 0, 0);
         scene.add(bullGroup);
@@ -792,19 +802,19 @@
 
     // ===================== TITLE =====================
     function createTitle() {
-        const c = document.createElement('canvas');
+        var c = document.createElement('canvas');
         c.width = 1024; c.height = 260;
-        const x = c.getContext('2d');
-        x.fillStyle = '#ff4444'; x.font = '900 120px "Secular One","Heebo"';
+        var x = c.getContext('2d');
+        x.fillStyle = '#ff4444'; x.font = '900 120px Helvetica, sans-serif';
         x.textAlign = 'center'; x.textBaseline = 'middle';
         x.shadowColor = '#ff4444'; x.shadowBlur = 25;
         x.fillText('BULLISH', 512, 90); x.fillText('BULLISH', 512, 90);
         x.shadowBlur = 0;
         x.strokeStyle = '#ff4444'; x.lineWidth = 1; x.globalAlpha = 0.3;
         x.beginPath(); x.moveTo(310, 155); x.lineTo(714, 155); x.stroke();
-        x.globalAlpha = 1; x.fillStyle = '#555'; x.font = '400 32px "Heebo"';
-        x.fillText('STREET FOOD • זכרון יעקב', 512, 200);
-        const tex = new THREE.CanvasTexture(c); tex.minFilter = THREE.LinearFilter;
+        x.globalAlpha = 1; x.fillStyle = '#555'; x.font = '400 30px Helvetica';
+        x.fillText('STREET FOOD  ZICHRON YAAKOV', 512, 205);
+        var tex = new THREE.CanvasTexture(c); tex.minFilter = THREE.LinearFilter;
         titleMesh = new THREE.Mesh(new THREE.PlaneGeometry(7, 1.8), new THREE.MeshBasicMaterial({ map: tex, transparent: true, depthWrite: false }));
         titleMesh.position.set(0, 2.5, -3);
         titleMesh.scale.set(0, 0, 1);
@@ -814,24 +824,24 @@
 
     // ===================== NEON ACCENTS =====================
     function createNeonAccents() {
-        const rGeo = new THREE.TorusGeometry(7.5, 0.015, 8, 64);
-        const rMat = new THREE.MeshBasicMaterial({ color: 0xff4444, transparent: true, opacity: 0.25 });
-        neonRing = new THREE.Mesh(rGeo, rMat);
-        neonRing.rotation.x = Math.PI/2; neonRing.position.y = -2.5;
-        scene.add(neonRing);
-        const iGeo = new THREE.TorusGeometry(7.5, 0.12, 8, 64);
-        const iMat = new THREE.MeshBasicMaterial({ color: 0xff2222, transparent: true, opacity: 0.03, side: THREE.DoubleSide, depthWrite: false });
-        const inner = new THREE.Mesh(iGeo, iMat);
-        inner.rotation.x = Math.PI/2; inner.position.y = -2.5;
-        scene.add(inner);
+        neonRing = new THREE.Mesh(
+            new THREE.TorusGeometry(7.5, 0.015, 8, 64),
+            new THREE.MeshBasicMaterial({ color: 0xff4444, transparent: true, opacity: 0.25 })
+        );
+        neonRing.rotation.x = Math.PI/2; neonRing.position.y = -2.5; scene.add(neonRing);
+        var inner = new THREE.Mesh(
+            new THREE.TorusGeometry(7.5, 0.12, 8, 64),
+            new THREE.MeshBasicMaterial({ color: 0xff2222, transparent: true, opacity: 0.03, side: THREE.DoubleSide, depthWrite: false })
+        );
+        inner.rotation.x = Math.PI/2; inner.position.y = -2.5; scene.add(inner);
     }
 
     // ===================== MENU CARDS =====================
     function createCards() {
-        const radius = 7;
-        MENU.forEach((item, i) => {
-            const angle = (i / MENU.length) * Math.PI * 2;
-            const card = buildCard(item);
+        var radius = 7;
+        MENU.forEach(function(item, i) {
+            var angle = (i / MENU.length) * Math.PI * 2;
+            var card = buildCard(item);
             card.userData = { menuItem: item, baseAngle: angle, index: i };
             card.position.set(Math.sin(angle)*radius, 0, Math.cos(angle)*radius);
             card.lookAt(0, 0, 0); card.rotateY(Math.PI);
@@ -842,182 +852,108 @@
     }
 
     function buildCard(item) {
-        const g = new THREE.Group();
-        const body = new THREE.Mesh(new THREE.BoxGeometry(3, 4, 0.1), new THREE.MeshStandardMaterial({ color: 0x111111, metalness: 0.05, roughness: 0.9 }));
+        var g = new THREE.Group();
+        var body = new THREE.Mesh(
+            new THREE.BoxGeometry(3, 4, 0.1),
+            new THREE.MeshStandardMaterial({ color: 0x111111, metalness: 0.1, roughness: 0.85 })
+        );
         g.add(body);
-        // Top accent
         g.add(makeBorderMesh(3, 0.05, 0.11, item.color, 0, 1.97, 0));
-        // Photo
-        const photoTex = loadedTextures[item.id];
+        var photoTex = loadedTextures[item.id];
         if (photoTex) {
-            const photo = new THREE.Mesh(new THREE.PlaneGeometry(2.6, 2), new THREE.MeshBasicMaterial({ map: photoTex }));
+            var photo = new THREE.Mesh(new THREE.PlaneGeometry(2.6, 2), new THREE.MeshBasicMaterial({ map: photoTex }));
             photo.position.set(0, 0.55, 0.07); g.add(photo);
         }
-        // Name
-        const nTex = makeTextCanvas(item.name, 512, 80, { font: '900 56px "Heebo"', color: '#ffffff' });
-        const nMesh = new THREE.Mesh(new THREE.PlaneGeometry(2.4, 0.4), new THREE.MeshBasicMaterial({ map: nTex, transparent: true, depthWrite: false }));
+        var nTex = makeTextCanvas(item.name, 512, 80, { font: '900 56px Helvetica', color: '#ffffff' });
+        var nMesh = new THREE.Mesh(new THREE.PlaneGeometry(2.4, 0.4), new THREE.MeshBasicMaterial({ map: nTex, transparent: true, depthWrite: false }));
         nMesh.position.set(0, -0.75, 0.07); g.add(nMesh);
-        // Price
-        const pTex = makeTextCanvas(item.price, 256, 72, { font: '900 52px "Heebo"', color: item.accent });
-        const pMesh = new THREE.Mesh(new THREE.PlaneGeometry(1.1, 0.35), new THREE.MeshBasicMaterial({ map: pTex, transparent: true, depthWrite: false }));
+        var pTex = makeTextCanvas(item.price, 256, 72, { font: '900 52px Helvetica', color: item.accent });
+        var pMesh = new THREE.Mesh(new THREE.PlaneGeometry(1.1, 0.35), new THREE.MeshBasicMaterial({ map: pTex, transparent: true, depthWrite: false }));
         pMesh.position.set(0, -1.25, 0.07); g.add(pMesh);
-        // Bottom accent
         g.add(makeBorderMesh(3, 0.05, 0.11, item.color, 0, -1.97, 0));
+        // Holographic shimmer
+        var shimmerMat = new THREE.MeshBasicMaterial({
+            color: item.color, transparent: true, opacity: 0.0,
+            side: THREE.FrontSide, blending: THREE.AdditiveBlending, depthWrite: false
+        });
+        var shimmer = new THREE.Mesh(new THREE.PlaneGeometry(3, 4), shimmerMat);
+        shimmer.position.set(0, 0, 0.08);
+        shimmerMeshes.push({ mesh: shimmer, phase: Math.random() * Math.PI * 2 });
+        g.add(shimmer);
         // Halo
-        const halo = new THREE.Mesh(new THREE.PlaneGeometry(3.6, 4.6), new THREE.MeshBasicMaterial({ color: item.color, transparent: true, opacity: 0.03, side: THREE.DoubleSide, depthWrite: false }));
+        var halo = new THREE.Mesh(new THREE.PlaneGeometry(3.6, 4.6), new THREE.MeshBasicMaterial({ color: item.color, transparent: true, opacity: 0.03, side: THREE.DoubleSide, depthWrite: false }));
         halo.position.z = -0.1; g.add(halo);
         return g;
     }
 
     function makeBorderMesh(w, h, d, color, x, y, z) {
-        const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), new THREE.MeshBasicMaterial({ color }));
+        var m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), new THREE.MeshBasicMaterial({ color: color }));
         m.position.set(x, y, z); return m;
     }
 
-    // ===================== 3D LOYALTY CARD =====================
+    // ===================== LOYALTY CARD 3D =====================
     function createLoyaltyCard3D() {
-        const c = document.createElement('canvas');
+        var c = document.createElement('canvas');
         c.width = 512; c.height = 320;
-        const x = c.getContext('2d');
-        // Card background — premium black
-        const grad = x.createLinearGradient(0, 0, 512, 320);
-        grad.addColorStop(0, '#1a1a1a');
-        grad.addColorStop(1, '#0d0d0d');
-        x.fillStyle = grad;
-        x.fillRect(0, 0, 512, 320);
-        // Gold accent stripe
-        x.fillStyle = '#ffd700';
-        x.fillRect(0, 0, 512, 4);
-        x.fillRect(0, 316, 512, 4);
-        // Bull icon
-        x.font = '48px serif';
-        x.fillText('🐂', 30, 65);
-        // Title
-        x.fillStyle = '#ffd700';
-        x.font = '900 30px "Secular One","Heebo"';
-        x.textAlign = 'right';
+        var x = c.getContext('2d');
+        var grad = x.createLinearGradient(0, 0, 512, 320);
+        grad.addColorStop(0, '#1a1a1a'); grad.addColorStop(1, '#0d0d0d');
+        x.fillStyle = grad; x.fillRect(0, 0, 512, 320);
+        x.fillStyle = '#ffd700'; x.fillRect(0, 0, 512, 4); x.fillRect(0, 316, 512, 4);
+        x.fillStyle = '#ffd700'; x.font = '900 30px Helvetica'; x.textAlign = 'right';
         x.fillText('BULLISH VIP', 485, 55);
-        // Subtitle
-        x.fillStyle = '#888';
-        x.font = '400 16px "Heebo"';
-        x.fillText('מועדון לקוחות', 485, 80);
-        // Big discount
-        x.textAlign = 'center';
-        x.fillStyle = '#ff4444';
-        x.font = '900 64px "Heebo"';
-        x.shadowColor = '#ff4444'; x.shadowBlur = 15;
-        x.fillText('10% OFF', 256, 175);
-        x.shadowBlur = 0;
-        // Subtext
-        x.fillStyle = '#555';
-        x.font = '400 18px "Heebo"';
-        x.fillText('הנחה על ההזמנה הבאה', 256, 210);
-        // CTA
-        x.fillStyle = '#ffd700';
-        x.font = '700 20px "Heebo"';
-        x.fillText('👆 לחץ להצטרפות', 256, 270);
-        // Card number
-        x.fillStyle = '#333';
-        x.font = '300 12px monospace';
-        x.textAlign = 'left';
-        x.fillText('**** **** **** 0000', 30, 300);
-
-        const tex = new THREE.CanvasTexture(c); tex.minFilter = THREE.LinearFilter;
+        x.fillStyle = '#888'; x.font = '400 16px Helvetica'; x.fillText('LOYALTY CLUB', 485, 80);
+        x.textAlign = 'center'; x.fillStyle = '#ff4444'; x.font = '900 64px Helvetica';
+        x.shadowColor = '#ff4444'; x.shadowBlur = 15; x.fillText('10% OFF', 256, 175); x.shadowBlur = 0;
+        x.fillStyle = '#555'; x.font = '400 18px Helvetica'; x.fillText('on your next order', 256, 210);
+        x.fillStyle = '#ffd700'; x.font = '700 20px Helvetica'; x.fillText('TAP TO JOIN', 256, 265);
+        x.fillStyle = '#333'; x.font = '300 12px monospace'; x.textAlign = 'left'; x.fillText('**** **** **** 0000', 30, 300);
+        var tex = new THREE.CanvasTexture(c); tex.minFilter = THREE.LinearFilter;
         loyaltyCard3D = new THREE.Group();
-        // Card plane
-        const card = new THREE.Mesh(new THREE.PlaneGeometry(5, 3.1), new THREE.MeshBasicMaterial({ map: tex }));
-        loyaltyCard3D.add(card);
-        // Gold border glow
-        const border = new THREE.Mesh(new THREE.PlaneGeometry(5.2, 3.3), new THREE.MeshBasicMaterial({ color: 0xffd700, transparent: true, opacity: 0.08, side: THREE.DoubleSide, depthWrite: false }));
-        border.position.z = -0.02;
-        loyaltyCard3D.add(border);
+        loyaltyCard3D.add(new THREE.Mesh(new THREE.PlaneGeometry(5, 3.1), new THREE.MeshBasicMaterial({ map: tex })));
+        var border = new THREE.Mesh(new THREE.PlaneGeometry(5.2, 3.3), new THREE.MeshBasicMaterial({ color: 0xffd700, transparent: true, opacity: 0.08, side: THREE.DoubleSide, depthWrite: false }));
+        border.position.z = -0.02; loyaltyCard3D.add(border);
         loyaltyCard3D.position.set(0, 0.5, 0);
         loyaltyCard3D.userData = { type: 'loyalty' };
         scene.add(loyaltyCard3D);
     }
 
-    // ===================== 3D GOOGLE BUSINESS CARD =====================
+    // ===================== GOOGLE CARD 3D =====================
     function createGoogleCard3D() {
-        const c = document.createElement('canvas');
+        var c = document.createElement('canvas');
         c.width = 512; c.height = 360;
-        const x = c.getContext('2d');
-        // White card
-        x.fillStyle = '#ffffff';
-        x.fillRect(0, 0, 512, 360);
-        // Google blue top bar
-        x.fillStyle = '#4285F4';
-        x.fillRect(0, 0, 512, 5);
-        // Avatar
-        x.fillStyle = '#ff4444';
-        x.beginPath();
-        x.arc(52, 48, 22, 0, Math.PI*2);
-        x.fill();
-        x.fillStyle = '#fff';
-        x.font = '22px serif';
-        x.textAlign = 'center';
-        x.fillText('🐂', 52, 56);
-        // Name
-        x.fillStyle = '#1a1a1a';
-        x.font = '700 20px "Heebo"';
-        x.textAlign = 'left';
-        x.fillText('Bullish Sandwich - בוליש', 85, 42);
-        // Category
-        x.fillStyle = '#888';
-        x.font = '400 13px "Heebo"';
-        x.fillText('מסעדה · סנדוויצ׳ בשרי', 85, 62);
-        // Rating section
-        x.fillStyle = '#1a1a1a';
-        x.font = '900 52px "Heebo"';
-        x.textAlign = 'left';
-        x.fillText('4.8', 30, 135);
-        // Stars
-        x.font = '24px serif';
-        for (let i = 0; i < 5; i++) {
-            x.fillText('⭐', 120 + i * 30, 120);
-        }
-        x.fillStyle = '#888';
-        x.font = '400 14px "Heebo"';
-        x.fillText('347 ביקורות', 120, 145);
-        // Separator
-        x.fillStyle = '#eee';
-        x.fillRect(20, 165, 472, 1);
-        // Info rows
-        x.fillStyle = '#333';
-        x.font = '400 15px "Heebo"';
-        x.fillText('📍  המייסדים 52, זכרון יעקב', 30, 195);
-        x.fillText('🕐  פתוח · נסגר ב-22:00', 30, 220);
-        x.fillText('📞  04-XXX-XXXX', 30, 245);
-        // Action buttons
-        const btns = [
-            { x: 40, color: '#4285F4', text: '🗺️ הגעה' },
-            { x: 155, color: '#34A853', text: '📞 התקשר' },
-            { x: 270, color: '#FBBC05', text: '✍️ ביקורת' },
-            { x: 385, color: '#EA4335', text: '↗️ שיתוף' }
+        var x = c.getContext('2d');
+        x.fillStyle = '#ffffff'; x.fillRect(0, 0, 512, 360);
+        x.fillStyle = '#4285F4'; x.fillRect(0, 0, 512, 5);
+        x.fillStyle = '#ff4444'; x.beginPath(); x.arc(52, 48, 22, 0, Math.PI*2); x.fill();
+        x.fillStyle = '#1a1a1a'; x.font = '700 20px Helvetica'; x.textAlign = 'left';
+        x.fillText('Bullish Sandwich', 85, 42);
+        x.fillStyle = '#888'; x.font = '400 13px Helvetica'; x.fillText('Restaurant - Zichron Yaakov', 85, 62);
+        x.fillStyle = '#1a1a1a'; x.font = '900 52px Helvetica'; x.textAlign = 'left'; x.fillText('4.8', 30, 135);
+        x.fillStyle = '#888'; x.font = '400 14px Helvetica'; x.fillText('347 reviews', 120, 145);
+        x.fillStyle = '#eee'; x.fillRect(20, 165, 472, 1);
+        x.fillStyle = '#333'; x.font = '400 15px Helvetica';
+        x.fillText('\uD83D\uDCCD  HaMeysadim 52, Zichron Yaakov', 30, 195);
+        x.fillText('\uD83D\uDD50  Open - closes 22:00', 30, 220);
+        x.fillText('\uD83D\uDCDE  04-000-0000', 30, 245);
+        var btns = [
+            { bx: 40, color: '#4285F4', text: 'Directions' },
+            { bx: 155, color: '#34A853', text: 'Call' },
+            { bx: 270, color: '#FBBC05', text: 'Review' },
+            { bx: 385, color: '#EA4335', text: 'Share' }
         ];
-        btns.forEach(b => {
-            x.fillStyle = b.color;
-            x.beginPath();
-            x.roundRect(b.x, 270, 95, 34, 8);
-            x.fill();
+        btns.forEach(function(b) {
+            x.fillStyle = b.color; x.beginPath(); x.rect(b.bx, 270, 95, 34); x.fill();
             x.fillStyle = b.color === '#FBBC05' ? '#000' : '#fff';
-            x.font = '700 12px "Heebo"';
-            x.textAlign = 'center';
-            x.fillText(b.text, b.x + 47, 292);
+            x.font = '700 12px Helvetica'; x.textAlign = 'center'; x.fillText(b.text, b.bx + 47, 292);
         });
-        // Bottom text
-        x.fillStyle = '#bbb';
-        x.font = '300 11px "Heebo"';
-        x.textAlign = 'center';
-        x.fillText('Google Maps · מידע עסקי מאומת', 256, 335);
-
-        const tex = new THREE.CanvasTexture(c); tex.minFilter = THREE.LinearFilter;
+        x.fillStyle = '#bbb'; x.font = '300 11px Helvetica'; x.textAlign = 'center';
+        x.fillText('Google Maps - Verified Business', 256, 335);
+        var tex = new THREE.CanvasTexture(c); tex.minFilter = THREE.LinearFilter;
         googleCard3D = new THREE.Group();
-        const card = new THREE.Mesh(new THREE.PlaneGeometry(5, 3.5), new THREE.MeshBasicMaterial({ map: tex }));
-        googleCard3D.add(card);
-        // Shadow
-        const shadow = new THREE.Mesh(new THREE.PlaneGeometry(5.1, 3.6), new THREE.MeshBasicMaterial({ color: 0x4285F4, transparent: true, opacity: 0.06, side: THREE.DoubleSide, depthWrite: false }));
-        shadow.position.z = -0.02;
-        googleCard3D.add(shadow);
+        googleCard3D.add(new THREE.Mesh(new THREE.PlaneGeometry(5, 3.5), new THREE.MeshBasicMaterial({ map: tex })));
+        var shadow = new THREE.Mesh(new THREE.PlaneGeometry(5.1, 3.6), new THREE.MeshBasicMaterial({ color: 0x4285F4, transparent: true, opacity: 0.06, side: THREE.DoubleSide, depthWrite: false }));
+        shadow.position.z = -0.02; googleCard3D.add(shadow);
         googleCard3D.position.set(0, 0.5, 0);
         googleCard3D.userData = { type: 'google' };
         scene.add(googleCard3D);
@@ -1025,30 +961,28 @@
 
     // ===================== CATEGORY DOTS =====================
     function createCatDots() {
-        const container = document.getElementById('catDots');
-        MENU.forEach((_, i) => {
-            const dot = document.createElement('div');
+        var container = document.getElementById('catDots');
+        MENU.forEach(function(_, i) {
+            var dot = document.createElement('div');
             dot.className = 'cat-dot' + (i === 0 ? ' active' : '');
             container.appendChild(dot);
         });
     }
     function updateCatDots() {
-        let closest = 0, maxZ = -Infinity;
-        cardMeshes.forEach((c, i) => { if (c.position.z > maxZ) { maxZ = c.position.z; closest = i; } });
+        var closest = 0, maxZ = -Infinity;
+        cardMeshes.forEach(function(c, i) { if (c.position.z > maxZ) { maxZ = c.position.z; closest = i; } });
         if (closest !== activeCardIndex) {
             activeCardIndex = closest;
-            document.querySelectorAll('.cat-dot').forEach((d, i) => d.classList.toggle('active', i === closest));
+            document.querySelectorAll('.cat-dot').forEach(function(d, i) { d.classList.toggle('active', i === closest); });
         }
     }
 
     // ===================== PARTICLES =====================
     function createEmbers() {
-        const count = 130, geo = new THREE.BufferGeometry();
-        const pos = new Float32Array(count*3), speeds = new Float32Array(count);
-        for (let i = 0; i < count; i++) {
-            pos[i*3] = (Math.random()-0.5)*25;
-            pos[i*3+1] = Math.random()*18-10;
-            pos[i*3+2] = (Math.random()-0.5)*25;
+        var count = 130, geo = new THREE.BufferGeometry();
+        var pos = new Float32Array(count*3), speeds = new Float32Array(count);
+        for (var i = 0; i < count; i++) {
+            pos[i*3] = (Math.random()-0.5)*25; pos[i*3+1] = Math.random()*18-10; pos[i*3+2] = (Math.random()-0.5)*25;
             speeds[i] = Math.random()*0.02+0.008;
         }
         geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
@@ -1058,21 +992,19 @@
     }
     function updateEmbers() {
         if (!embers) return;
-        const p = embers.geometry.getAttribute('position').array, s = embers.userData.speeds;
-        for (let i = 0; i < p.length; i += 3) {
-            const idx = i/3; p[i+1] += s[idx]; p[i] += Math.sin(Date.now()*0.001+idx)*0.003;
+        var p = embers.geometry.getAttribute('position').array, s = embers.userData.speeds;
+        for (var i = 0; i < p.length; i += 3) {
+            var idx = i/3; p[i+1] += s[idx]; p[i] += Math.sin(Date.now()*0.001+idx)*0.003;
             if (p[i+1] > 10) { p[i] = (Math.random()-0.5)*25; p[i+1] = -10; p[i+2] = (Math.random()-0.5)*25; }
         }
         embers.geometry.getAttribute('position').needsUpdate = true;
         embers.material.opacity = 0.35 + Math.sin(Date.now()*0.002)*0.15;
     }
     function createSmoke() {
-        const count = 40, geo = new THREE.BufferGeometry();
-        const pos = new Float32Array(count*3), speeds = new Float32Array(count);
-        for (let i = 0; i < count; i++) {
-            pos[i*3] = (Math.random()-0.5)*16;
-            pos[i*3+1] = Math.random()*14-5;
-            pos[i*3+2] = (Math.random()-0.5)*16;
+        var count = 40, geo = new THREE.BufferGeometry();
+        var pos = new Float32Array(count*3), speeds = new Float32Array(count);
+        for (var i = 0; i < count; i++) {
+            pos[i*3] = (Math.random()-0.5)*16; pos[i*3+1] = Math.random()*14-5; pos[i*3+2] = (Math.random()-0.5)*16;
             speeds[i] = Math.random()*0.005+0.002;
         }
         geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
@@ -1082,98 +1014,125 @@
     }
     function updateSmoke() {
         if (!smokeParticles) return;
-        const p = smokeParticles.geometry.getAttribute('position').array, s = smokeParticles.userData.speeds;
-        for (let i = 0; i < p.length; i += 3) {
-            const idx = i/3; p[i+1] += s[idx]; p[i] += Math.sin(Date.now()*0.0005+idx*2)*0.005;
+        var p = smokeParticles.geometry.getAttribute('position').array, s = smokeParticles.userData.speeds;
+        for (var i = 0; i < p.length; i += 3) {
+            var idx = i/3; p[i+1] += s[idx]; p[i] += Math.sin(Date.now()*0.0005+idx*2)*0.005;
             if (p[i+1] > 12) { p[i] = (Math.random()-0.5)*16; p[i+1] = -5; p[i+2] = (Math.random()-0.5)*16; }
         }
         smokeParticles.geometry.getAttribute('position').needsUpdate = true;
     }
+    function createGoldenParticles() {
+        var count = 80, geo = new THREE.BufferGeometry();
+        var pos = new Float32Array(count*3), speeds = new Float32Array(count), hOff = new Float32Array(count);
+        for (var i = 0; i < count; i++) {
+            var angle = (i / count) * Math.PI * 2;
+            pos[i*3] = Math.cos(angle) * (6.5 + Math.random() * 1.5);
+            pos[i*3+1] = (Math.random()-0.5) * 8;
+            pos[i*3+2] = Math.sin(angle) * (6.5 + Math.random() * 1.5);
+            speeds[i] = Math.random() * 0.014 + 0.004;
+            hOff[i] = Math.random() * Math.PI * 2;
+        }
+        geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+        goldenParticles = new THREE.Points(geo, new THREE.PointsMaterial({ color: 0xffd700, size: 0.12, transparent: true, opacity: 0.55, blending: THREE.AdditiveBlending, sizeAttenuation: true, depthWrite: false }));
+        goldenParticles.userData.speeds = speeds;
+        goldenParticles.userData.hOff = hOff;
+        scene.add(goldenParticles);
+    }
+    function updateGoldenParticles() {
+        if (!goldenParticles) return;
+        var p = goldenParticles.geometry.getAttribute('position').array;
+        var s = goldenParticles.userData.speeds, h = goldenParticles.userData.hOff;
+        var t = Date.now() * 0.001;
+        for (var i = 0; i < p.length; i += 3) {
+            var idx = i/3;
+            p[i+1] += s[idx];
+            if (p[i+1] > 5) p[i+1] = -4;
+            p[i] += Math.sin(t * 0.5 + h[idx]) * 0.005;
+            p[i+2] += Math.cos(t * 0.5 + h[idx]) * 0.005;
+        }
+        goldenParticles.geometry.getAttribute('position').needsUpdate = true;
+        goldenParticles.material.opacity = 0.35 + Math.sin(t * 1.2) * 0.2;
+    }
 
     // ===================== GROUND =====================
     function createGroundGlow() {
-        const floor = new THREE.Mesh(new THREE.PlaneGeometry(30, 30), new THREE.MeshStandardMaterial({ color: 0x060606, metalness: 0.85, roughness: 0.25 }));
-        floor.rotation.x = -Math.PI/2; floor.position.y = -4; scene.add(floor);
-        const glow = new THREE.Mesh(new THREE.PlaneGeometry(10, 10), new THREE.MeshBasicMaterial({ color: 0xff2222, transparent: true, opacity: 0.05, side: THREE.DoubleSide, depthWrite: false }));
+        if (!isARMode) {
+            var floor = new THREE.Mesh(new THREE.PlaneGeometry(30, 30), new THREE.MeshStandardMaterial({ color: 0x060606, metalness: 0.85, roughness: 0.25 }));
+            floor.rotation.x = -Math.PI/2; floor.position.y = -4; scene.add(floor);
+        }
+        var glow = new THREE.Mesh(new THREE.PlaneGeometry(10, 10), new THREE.MeshBasicMaterial({ color: 0xff2222, transparent: true, opacity: 0.04, side: THREE.DoubleSide, depthWrite: false }));
         glow.rotation.x = -Math.PI/2; glow.position.y = -3.95; scene.add(glow);
     }
 
     // ===================== HELPERS =====================
     function makeTextCanvas(text, w, h, opts) {
-        const c = document.createElement('canvas');
+        var c = document.createElement('canvas');
         c.width = w; c.height = h;
-        const x = c.getContext('2d');
+        var x = c.getContext('2d');
         x.fillStyle = opts.color || '#fff';
-        x.font = opts.font || '400 32px "Heebo"';
+        x.font = opts.font || '400 32px Helvetica';
         x.textAlign = 'center'; x.textBaseline = 'middle'; x.direction = 'rtl';
         x.fillText(text, w/2, h/2);
-        const t = new THREE.CanvasTexture(c); t.minFilter = THREE.LinearFilter; return t;
+        var t = new THREE.CanvasTexture(c); t.minFilter = THREE.LinearFilter; return t;
     }
     function animateSpring(target, to, dur, delay) {
-        setTimeout(() => {
-            const start = Date.now(), from = { x: target.x, y: target.y, z: target.z };
-            const tick = () => {
-                const t = Math.min((Date.now()-start)/dur, 1);
-                const e = 1-Math.pow(1-t, 3);
-                const o = t < 1 ? 1+Math.sin(t*Math.PI*2)*0.1*(1-t) : 1;
+        setTimeout(function() {
+            var start = Date.now(), from = { x: target.x, y: target.y, z: target.z };
+            function tick() {
+                var t = Math.min((Date.now()-start)/dur, 1);
+                var e = 1-Math.pow(1-t, 3);
+                var o = t < 1 ? 1+Math.sin(t*Math.PI*2)*0.1*(1-t) : 1;
                 target.x = from.x+(to.x-from.x)*e*o;
                 target.y = from.y+(to.y-from.y)*e*o;
                 target.z = from.z+(to.z-from.z)*e*o;
                 if (t < 1) requestAnimationFrame(tick);
                 else { target.x = to.x; target.y = to.y; target.z = to.z; }
-            }; tick();
+            } tick();
         }, delay||0);
+    }
+
+    // ===================== CONFETTI =====================
+    function spawnConfetti(cx, cy) {
+        var colors = ['#ff4444','#ff8c00','#ffd700','#ff6b6b','#ff5522','#ffcc00'];
+        for (var i = 0; i < 14; i++) {
+            var el = document.createElement('div');
+            el.className = 'confetti-p';
+            var size = 4 + Math.random() * 6;
+            el.style.cssText = 'left:' + (cx + (Math.random()-0.5)*70) + 'px;top:' + (cy-20) + 'px;width:' + size + 'px;height:' + size + 'px;background:' + colors[Math.floor(Math.random()*colors.length)] + ';animation-duration:' + (0.6+Math.random()*0.6) + 's;animation-delay:' + (Math.random()*0.15) + 's;';
+            document.body.appendChild(el);
+            setTimeout(function() { el.remove(); }, 1200);
+        }
     }
 
     // ===================== TAB NAVIGATION =====================
     function switchTab(tab) {
         if (tab === currentTab) return;
         currentTab = tab;
-        // Update tab buttons
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        document.querySelector(`.tab-btn[onclick="switchTab('${tab}')"]`).classList.add('active');
-        // Close any open panels
+        document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+        document.querySelector('.tab-btn[onclick="switchTab(\'' + tab + '\')"]').classList.add('active');
         closeDetail(); closeLoyalty(); closeReview();
-        // Toggle 3D elements visibility
-        const showMenu = tab === 'menu';
-        const showClub = tab === 'club';
-        const showReviews = tab === 'reviews';
-        const showInfo = tab === 'info';
-        // Menu cards
-        cardMeshes.forEach(c => { c.visible = showMenu; });
+        var showMenu = tab==='menu', showClub=tab==='club', showReviews=tab==='reviews', showInfo=tab==='info';
+        cardMeshes.forEach(function(c) { c.visible = showMenu; });
         if (bullGroup) bullGroup.visible = showMenu || showInfo;
         if (titleMesh) titleMesh.visible = showMenu;
-        // Category dots & CTA
+        if (goldenParticles) goldenParticles.visible = showMenu;
         document.getElementById('catDots').style.display = showMenu ? 'flex' : 'none';
-        document.getElementById('ctaBar').style.display = showMenu ? 'flex' : 'none';
+        document.getElementById('ctaBar').style.display = (showMenu || showInfo) ? 'flex' : 'none';
         document.getElementById('hint').style.display = showMenu ? 'block' : 'none';
-        // Loyalty card
         if (loyaltyCard3D) {
             loyaltyCard3D.visible = showClub;
-            if (showClub) {
-                loyaltyCard3D.scale.set(0, 0, 0);
-                animateSpring(loyaltyCard3D.scale, {x:1, y:1, z:1}, 800, 0);
-            }
+            if (showClub) { loyaltyCard3D.scale.set(0,0,0); animateSpring(loyaltyCard3D.scale, {x:1,y:1,z:1}, 800, 0); }
         }
-        // Google card
         if (googleCard3D) {
             googleCard3D.visible = showReviews;
-            if (showReviews) {
-                googleCard3D.scale.set(0, 0, 0);
-                animateSpring(googleCard3D.scale, {x:1, y:1, z:1}, 800, 0);
-            }
-        }
-        // Info tab — open CTA panel directly
-        if (showInfo) {
-            document.getElementById('ctaBar').style.display = 'flex';
-            // Show contact info overlay or just the CTA buttons
+            if (showReviews) { googleCard3D.scale.set(0,0,0); animateSpring(googleCard3D.scale, {x:1,y:1,z:1}, 800, 0); }
         }
         autoRotate = showMenu;
     }
 
     // ===================== TOUCH CONTROLS =====================
     function setupTouch() {
-        const el = renderer.domElement;
+        var el = renderer.domElement;
         el.addEventListener('touchstart', onTouchStart, { passive: false });
         el.addEventListener('touchmove', onTouchMove, { passive: false });
         el.addEventListener('touchend', onTouchEnd, { passive: false });
@@ -1182,41 +1141,39 @@
         el.addEventListener('mouseup', onMouseUp);
     }
     function onTouchStart(e) { e.preventDefault(); if (detailOpen) return; touchStartX = e.touches[0].clientX; isDragging = false; autoRotate = false; }
-    function onTouchMove(e) { e.preventDefault(); if (detailOpen) return; const dx = e.touches[0].clientX - touchStartX; if (Math.abs(dx) > 8) isDragging = true; if (isDragging && currentTab === 'menu') { targetRingAngle -= dx * 0.004; touchStartX = e.touches[0].clientX; } }
+    function onTouchMove(e) { e.preventDefault(); if (detailOpen) return; var dx = e.touches[0].clientX - touchStartX; if (Math.abs(dx) > 8) isDragging = true; if (isDragging && currentTab === 'menu') { targetRingAngle -= dx * 0.004; touchStartX = e.touches[0].clientX; } }
     function onTouchEnd(e) {
         if (detailOpen) return;
-        if (!isDragging) {
-            const t = e.changedTouches[0];
-            checkTap(t.clientX, t.clientY);
-        }
-        if (currentTab === 'menu') setTimeout(() => { autoRotate = true; }, 3000);
+        if (!isDragging) { var t = e.changedTouches[0]; checkTap(t.clientX, t.clientY); }
+        if (currentTab === 'menu') setTimeout(function(){ autoRotate = true; }, 3000);
     }
     function onMouseDown(e) { if (detailOpen) return; touchStartX = e.clientX; mouseDown = true; isDragging = false; autoRotate = false; }
-    function onMouseMove(e) { if (!mouseDown || detailOpen) return; const dx = e.clientX - touchStartX; if (Math.abs(dx) > 5) isDragging = true; if (isDragging && currentTab === 'menu') { targetRingAngle -= dx * 0.004; touchStartX = e.clientX; } }
-    function onMouseUp(e) { mouseDown = false; if (detailOpen) return; if (!isDragging) checkTap(e.clientX, e.clientY); if (currentTab === 'menu') setTimeout(() => { autoRotate = true; }, 3000); }
+    function onMouseMove(e) { if (!mouseDown || detailOpen) return; var dx = e.clientX - touchStartX; if (Math.abs(dx) > 5) isDragging = true; if (isDragging && currentTab === 'menu') { targetRingAngle -= dx * 0.004; touchStartX = e.clientX; } }
+    function onMouseUp(e) { mouseDown = false; if (detailOpen) return; if (!isDragging) checkTap(e.clientX, e.clientY); if (currentTab === 'menu') setTimeout(function(){ autoRotate = true; }, 3000); }
 
     function checkTap(cx, cy) {
         mouse.x = (cx/window.innerWidth)*2-1;
         mouse.y = -(cy/window.innerHeight)*2+1;
         raycaster.setFromCamera(mouse, camera);
-        // Check menu cards
         if (currentTab === 'menu') {
-            const hits = raycaster.intersectObjects(cardMeshes, true);
+            var hits = raycaster.intersectObjects(cardMeshes, true);
             if (hits.length > 0) {
-                let obj = hits[0].object;
+                var obj = hits[0].object;
                 while (obj && !obj.userData.menuItem) obj = obj.parent;
-                if (obj && obj.userData.menuItem) { openDetail(obj.userData.menuItem); if (navigator.vibrate) navigator.vibrate(30); }
+                if (obj && obj.userData.menuItem) {
+                    openDetail(obj.userData.menuItem);
+                    spawnConfetti(cx, cy);
+                    if (navigator.vibrate) navigator.vibrate(30);
+                }
             }
         }
-        // Check loyalty card
         if (currentTab === 'club' && loyaltyCard3D && loyaltyCard3D.visible) {
-            const hits = raycaster.intersectObjects(loyaltyCard3D.children, true);
-            if (hits.length > 0) { openLoyalty(); }
+            var hits2 = raycaster.intersectObjects(loyaltyCard3D.children, true);
+            if (hits2.length > 0) openLoyalty();
         }
-        // Check google card
         if (currentTab === 'reviews' && googleCard3D && googleCard3D.visible) {
-            const hits = raycaster.intersectObjects(googleCard3D.children, true);
-            if (hits.length > 0) { openReview(); }
+            var hits3 = raycaster.intersectObjects(googleCard3D.children, true);
+            if (hits3.length > 0) openReview();
         }
     }
 
@@ -1233,33 +1190,17 @@
         document.getElementById('ctaBar').style.opacity = '0';
         if (hintShown) { document.getElementById('hint').classList.add('hidden'); hintShown = false; }
     }
-    function closeDetail() {
-        detailOpen = false;
-        document.getElementById('detailPanel').classList.remove('visible');
-        document.getElementById('ctaBar').style.opacity = '1';
-    }
-    function openLoyalty() {
-        document.getElementById('loyaltyPanel').classList.add('visible');
-        detailOpen = true;
-    }
-    function closeLoyalty() {
-        document.getElementById('loyaltyPanel').classList.remove('visible');
-        detailOpen = false;
-    }
-    function openReview() {
-        document.getElementById('reviewPanel').classList.add('visible');
-        detailOpen = true;
-    }
-    function closeReview() {
-        document.getElementById('reviewPanel').classList.remove('visible');
-        detailOpen = false;
-    }
+    function closeDetail() { detailOpen = false; document.getElementById('detailPanel').classList.remove('visible'); document.getElementById('ctaBar').style.opacity = '1'; }
+    function openLoyalty() { document.getElementById('loyaltyPanel').classList.add('visible'); detailOpen = true; }
+    function closeLoyalty() { document.getElementById('loyaltyPanel').classList.remove('visible'); detailOpen = false; }
+    function openReview() { document.getElementById('reviewPanel').classList.add('visible'); detailOpen = true; }
+    function closeReview() { document.getElementById('reviewPanel').classList.remove('visible'); detailOpen = false; }
     function submitLoyalty(e) {
         e.preventDefault();
-        const code = 'BULL-' + Math.random().toString(36).substring(2, 6).toUpperCase();
+        var code = 'BULL-' + Math.random().toString(36).substring(2, 6).toUpperCase();
         document.getElementById('discountCode').textContent = code;
         document.getElementById('loyaltyForm').style.opacity = '0';
-        setTimeout(() => {
+        setTimeout(function() {
             document.getElementById('loyaltyForm').style.display = 'none';
             document.getElementById('loyaltySuccess').classList.add('show');
         }, 300);
@@ -1268,45 +1209,52 @@
     // ===================== CTA ACTIONS =====================
     function doCall() { window.location.href = 'tel:+972-4-000-0000'; }
     function doWhatsApp() {
-        const msg = currentItem() ? encodeURIComponent('היי בוליש! 🔥 אשמח להזמין: ' + currentItem().name) : encodeURIComponent('היי בוליש! 🔥');
+        var item = currentItem();
+        var msg = item ? encodeURIComponent('Hey Bullish! \uD83D\uDD25 I want to order: ' + item.name) : encodeURIComponent('Hey Bullish! \uD83D\uDD25');
         window.location.href = 'https://wa.me/972500000000?text=' + msg;
     }
-    function doInstagram() { window.location.href = 'https://www.instagram.com/bullish_sendwich/'; }
-    function doWaze() { window.location.href = 'https://waze.com/ul?q=%D7%91%D7%95%D7%9C%D7%99%D7%A9%20%D7%96%D7%9B%D7%A8%D7%95%D7%9F%20%D7%99%D7%A2%D7%A7%D7%91&navigate=yes'; }
+    function doInstagram() { window.open('https://www.instagram.com/bullish_sendwich/'); }
+    function doWaze() { window.open('https://waze.com/ul?q=Bullish+Zichron+Yaakov&navigate=yes'); }
     function doShare() {
-        if (navigator.share) { navigator.share({ title: 'בוליש - Bullish Sandwich', text: 'תפריט AR של בוליש! 🐂🔥', url: window.location.href }); }
+        if (navigator.share) navigator.share({ title: 'Bullish - AR Menu', text: 'Bullish AR menu! \uD83D\uDC02\uD83D\uDD25', url: window.location.href });
     }
-    function currentItem() { const n = document.getElementById('dName').textContent; return MENU.find(m => m.name === n) || null; }
+    function currentItem() { var n = document.getElementById('dName').textContent; return MENU.find(function(m){ return m.name === n; }) || null; }
 
     // ===================== ANIMATION LOOP =====================
     function animate() {
         requestAnimationFrame(animate);
-        const t = clock.getElapsedTime();
+        var t = clock.getElapsedTime();
+        // Update video texture for AR
+        if (isARMode && videoTexture) videoTexture.needsUpdate = true;
         // Menu carousel
         if (currentTab === 'menu') {
             if (autoRotate) targetRingAngle += 0.0015;
             ringAngle += (targetRingAngle - ringAngle) * 0.06;
-            const radius = 7;
-            cardMeshes.forEach((card, i) => {
-                const angle = card.userData.baseAngle + ringAngle;
+            var radius = 7;
+            cardMeshes.forEach(function(card, i) {
+                var angle = card.userData.baseAngle + ringAngle;
                 card.position.x = Math.sin(angle)*radius;
                 card.position.z = Math.cos(angle)*radius;
                 card.position.y = Math.sin(t*0.7+i*0.8)*0.18;
-                card.lookAt(0, card.position.y, 0);
-                card.rotateY(Math.PI);
-                const depth = (card.position.z+radius)/(radius*2);
-                const s = 0.55+depth*0.45;
+                card.lookAt(0, card.position.y, 0); card.rotateY(Math.PI);
+                var depth = (card.position.z+radius)/(radius*2);
+                var s = 0.55+depth*0.45;
                 if (card.scale.x > 0.01) card.scale.set(s, s, s);
             });
             updateCatDots();
         }
-        // Loyalty card animation
+        // Holographic shimmer
+        shimmerMeshes.forEach(function(s) {
+            var pulse = (Math.sin(t * 2.2 + s.phase) + 1) * 0.5;
+            s.mesh.material.opacity = pulse * 0.09;
+        });
+        // Loyalty card
         if (loyaltyCard3D && loyaltyCard3D.visible) {
             loyaltyCard3D.position.y = 0.5 + Math.sin(t*0.8)*0.15;
             loyaltyCard3D.rotation.y = Math.sin(t*0.3)*0.08;
             loyaltyCard3D.rotation.x = Math.sin(t*0.5)*0.03;
         }
-        // Google card animation
+        // Google card
         if (googleCard3D && googleCard3D.visible) {
             googleCard3D.position.y = 0.5 + Math.sin(t*0.7+1)*0.12;
             googleCard3D.rotation.y = Math.sin(t*0.25)*0.06;
@@ -1323,13 +1271,14 @@
         }
         // Neon ring
         if (neonRing) neonRing.material.opacity = 0.18 + Math.sin(t*1.5)*0.08;
-        // Pendant lights sway
-        pendantLights.forEach((p, i) => {
+        // Pendant lights
+        pendantLights.forEach(function(p, i) {
             p.group.position.y = p.baseY + Math.sin(t*0.4+i)*0.05;
             p.light.intensity = 0.6 + Math.sin(t*2+i*1.5)*0.2;
         });
         updateEmbers();
         updateSmoke();
+        updateGoldenParticles();
         renderer.render(scene, camera);
     }
     </script>
